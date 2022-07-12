@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@fontsource/jost": "^4.5.10",
+    "@popperjs/core": "^2.11.5",
     "prettier": "^2.7.1"
   },
   "devDependencies": {
