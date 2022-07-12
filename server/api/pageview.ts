@@ -1,7 +1,7 @@
-const startAt = Date.now()
-let count = 0
+import { currentUser, productRequests } from './../data/data.json'
+
 
 export default defineEventHandler(() => ({
-  pageview: count++,
-  startAt,
+  currentUser,
+  productRequests,
 }))

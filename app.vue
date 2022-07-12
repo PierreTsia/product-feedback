@@ -1,4 +1,11 @@
-<script setup>
+<script setup lang="ts">
+import { onBeforeMount } from '@vue/runtime-core'
+
+const color = useColorMode()
+onBeforeMount(() => {
+  color.preference = 'light'
+  color.value = 'light'
+})
 useHead({
   title: 'Vitesse Nuxt 3',
   link: [
@@ -11,7 +18,7 @@ useHead({
 
 <template>
   <NuxtLayout cl>
-    <NuxtPage />
+    <NuxtPage class="font-jost" />
   </NuxtLayout>
 </template>
 
@@ -22,8 +29,4 @@ html, body , #__nuxt{
   padding: 0;
 }
 
-html.dark {
-  background: #222;
-  color: white;
-}
 </style>
