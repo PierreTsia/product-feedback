@@ -7,6 +7,10 @@
     "start": "node .output/server/index.mjs",
     "lint": "eslint ."
   },
+  "dependencies": {
+    "@fontsource/jost": "^4.5.10",
+    "prettier": "^2.7.1"
+  },
   "devDependencies": {
     "@antfu/eslint-config": "^0.25.2",
     "@iconify-json/carbon": "^1.1.6",
@@ -19,8 +23,5 @@
     "nuxt": "^3.0.0-rc.4",
     "pinia": "^2.0.14",
     "typescript": "^4.7.4"
-  },
-  "dependencies": {
-    "@fontsource/jost": "^4.5.10"
   }
 }
