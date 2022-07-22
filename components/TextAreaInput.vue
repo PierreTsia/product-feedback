@@ -1,15 +1,16 @@
 <script lang="ts" setup>
 import { useVModel } from '@vueuse/core'
 import { useInputValidation } from '~/composables/inputValidation'
-const props = withDefaults(defineProps<TextInputProps>(), {
+
+const props = withDefaults(defineProps<TextAreaProps>(), {
   modelValue: '',
+  isError: false,
   placeholder: '',
   errorMessage: null,
 })
-
 const emit = defineEmits(['update:modelValue'])
 
-interface TextInputProps {
+interface TextAreaProps {
   modelValue: string
   isError?: boolean
   placeholder?: string
@@ -23,11 +24,11 @@ const { isFocused, hasBeenFocused, setFocus } = useInputValidation()
 </script>
 
 <template>
-  <div class="h-10 w-full">
-    <input
+  <div class="h-30 w-full">
+    <textarea
       ref="inputRef"
       v-model="data"
-      class="mr-2 w-full appearance-none bg-ghost-white rounded py-2 px-3 text-east-bay-blue text-sm mb-3 leading-tight focus:outline-none focus:shadow-outline"
+      class="w-full min-h-30 appearance-none bg-ghost-white rounded py-2 px-3 text-east-bay-blue text-sm mb-3 leading-tight focus:outline-none focus:shadow-outline"
       :class="{
         'border border-royal-blue': isFocused,
         'border border-vivid-red text-vivid-red': hasBeenFocused && hasError,

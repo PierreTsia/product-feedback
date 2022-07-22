@@ -16,7 +16,7 @@ defineProps<{ feedback: FeedbackDto }>()
         <span class="text-yankee-blue"> {{ feedback.upvotes }}</span>
       </span>
     </div>
-    <div class="grow px-2 sm:px-0">
+    <div class="grow px-4 sm:px-0">
       <h1 class="font-bold text-18px text-yankee-blue text-left">
         {{ feedback.title }}
       </h1>
@@ -33,7 +33,7 @@ defineProps<{ feedback: FeedbackDto }>()
             class="w-3 inline-block"
             src="/assets/shared/icon-arrow-up.svg"
             alt="icon arrow down" />
-          <span class="text-yankee-blue"> {{ feedback.upvotes }}</span>
+          <span class="text-yankee-blue mt-2"> {{ feedback.upvotes }}</span>
         </span>
 
         <span
@@ -42,7 +42,7 @@ defineProps<{ feedback: FeedbackDto }>()
             class="w-5 inline-block"
             src="/assets/shared/icon-comments.svg"
             alt="icon arrow down" />
-          <span class="text-yankee-blue font-bold text-16px">
+          <span class="ml-2 text-yankee-blue font-bold text-16px">
             {{ feedback.comments?.length ?? 0 }}</span
           >
         </span>

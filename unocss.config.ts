@@ -11,13 +11,21 @@ import {
 
 export default defineConfig({
   shortcuts: [
-    ['btn', 'px-4 py-3 rounded inline-block text-white cursor-pointer  disabled:cursor-default disabled:opacity-50 min-w-35'],
+    [
+      'btn',
+      'px-4 py-3 rounded-xl inline-block text-white cursor-pointer  disabled:cursor-default disabled:opacity-50',
+    ],
     ['btn-primary', 'bg-russian-violet hover:bg-russian-violet-light'],
     ['btn-secondary', 'bg-royal-blue hover:bg-royal-blue-light'],
     ['btn-accent', 'bg-east-bay-blue hover:bg-east-bay-blue-light'],
     ['btn-danger', 'bg-vivid-red hover:bg-vivid-red-light'],
-    ['tag', 'inline-block px-4 py-1 rounded-lg font-bold bg-alice-gray text-royal-blue cursor-pointer select-none  hover:bg-blue-gray '],
+    [
+      'tag',
+      'inline-block px-4 py-1 rounded-lg font-bold bg-alice-gray text-royal-blue cursor-pointer select-none  hover:bg-blue-gray ',
+    ],
     ['tag-active', 'bg-royal-blue text-white !hover:bg-royal-blue'],
+    ['text-primary', 'text-yankee-blue'],
+    ['text-secondary', 'text-dark-blue-gray'],
   ],
   theme: {
     // ...
@@ -38,14 +46,15 @@ export default defineConfig({
       aliceGray: '#F2F4FF',
       blueGray: '#CFD7FF',
       ghostWhite: '#F7F8FD',
-
     },
   },
   rules: [
-    [/^text-(.*)$/, ([, c], { theme }) => {
-      if (theme.colors[c])
-        return { color: theme.colors[c] }
-    }],
+    [
+      /^text-(.*)$/,
+      ([, c], { theme }) => {
+        if (theme.colors[c]) return { color: theme.colors[c] }
+      },
+    ],
   ],
   presets: [
     presetUno(),
@@ -71,8 +80,5 @@ export default defineConfig({
       },
     }),
   ],
-  transformers: [
-    transformerDirectives(),
-    transformerVariantGroup(),
-  ],
+  transformers: [transformerDirectives(), transformerVariantGroup()],
 })

@@ -1,8 +1,6 @@
-export interface ValidationFn {
-  (value: string, args?: any): boolean | string
-}
+import { ValidationFn } from '~/composables/types'
 
-export const useInputValidation = () => {
+export const useInputRules = () => {
   const hasMinLength: ValidationFn = (value: string, min = 3) => {
     return value.length > min || `Must have a minimum of ${min} characters`
   }
@@ -14,5 +12,41 @@ export const useInputValidation = () => {
   const isEmail: ValidationFn = (value: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || 'Must be a valid email'
   }
-  return { hasMinLength, hasMaxLength, isEmail }
+
+  return { isEmail, hasMaxLength, hasMinLength }
+}
+
+export const useInputValidation = () => {
+  const { hasMinLength, hasMaxLength, isEmail } = useInputRules()
+
+  const inputRef = ref(null)
+  const isFocused = ref(false)
+  const hasBeenFocused = ref(false)
+
+  const errorMessages = computed(() => {
+    return []
+    /*     if (!rules?.length) {
+      return []
+    }
+
+    return rules.map((r) => r(modelValue)).filter((e) => typeof e === 'string') */
+  })
+
+/*   const hasError = computed(() => {
+    return !!errorMessages.value.length
+  }) */
+  const setFocus = (arg = true) => {
+    hasBeenFocused.value = true
+    isFocused.value = arg
+  }
+  return {
+    hasMinLength,
+    hasMaxLength,
+    isEmail,
+    setFocus,
+    inputRef,
+    isFocused,
+    hasBeenFocused,
+    errorMessages,
+  }
 }
