@@ -22,6 +22,8 @@ export interface FeedbackComposition {
   createFields: Ref<Field[]>
   form: Ref<{ [key: string]: string }>
   setFormField: (s: FormKey, v?: string) => void
+  resetForm: () => void
   errors: Ref<FieldErrors>
+  submitForm: () => void
+  isValid: Ref<boolean>
 }
-

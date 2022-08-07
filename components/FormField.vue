@@ -43,6 +43,6 @@ interface FormFieldProps {
     <SelectInput
       v-else-if="type === 'select'"
       :options="options"
-      @on-select-option="(o) => $emit('onChange', o.name, slug)" />
+      @on-select-option="(o) => $emit('onChange', o.id, slug)" />
   </section>
 </template>

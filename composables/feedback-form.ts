@@ -1,4 +1,5 @@
 import type { Ref } from '@vue/reactivity'
+
 import { useInputRules } from '~/composables/inputValidation'
 import type {
   FeedbackComposition,
@@ -17,6 +18,8 @@ const categories = computed(() =>
 
 export const useFeedbackForm = (): FeedbackComposition => {
   const { hasMinLength, hasMaxLength } = useInputRules()
+  const { addFeedback } = useFeedbacks()
+  const router = useRouter()
 
   const form = ref({
     title: '',
@@ -28,6 +31,14 @@ export const useFeedbackForm = (): FeedbackComposition => {
     form.value[slug] = value
   }
 
+  const resetForm = () => {
+    form.value = {
+      title: '',
+      category: '',
+      details: '',
+    }
+  }
+
   const errors: Ref<FieldErrors> = ref(
     new Map([
       ['title' as FormKey, null],
@@ -36,6 +47,24 @@ export const useFeedbackForm = (): FeedbackComposition => {
       ['details' as FormKey, null],
     ])
   )
+
+  const isValid = computed(() => {
+    let isValid = true
+    for (const [, value] of errors.value.entries()) {
+      if (value !== null) {
+        isValid = false
+      }
+    }
+    return isValid
+  })
+
+  const submitForm = async () => {
+    if (!isValid.value) {
+      return
+    }
+    await addFeedback(form.value)
+    router.push('/')
+  }
 
   const createFields: Ref<Field[]> = ref([
     {
@@ -76,7 +105,6 @@ export const useFeedbackForm = (): FeedbackComposition => {
           .filter((e) => typeof e === 'string')
 
         errors.value.set(k as FormKey, (errorsMessages?.[0] as string) ?? null)
-
       }
     })
   }
@@ -87,5 +115,13 @@ export const useFeedbackForm = (): FeedbackComposition => {
     { deep: true }
   )
 
-  return { createFields, form, setFormField, errors }
+  return {
+    createFields,
+    form,
+    setFormField,
+    errors,
+    submitForm,
+    resetForm,
+    isValid,
+  }
 }

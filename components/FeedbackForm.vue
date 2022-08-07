@@ -1,7 +1,15 @@
 <script lang="ts" setup>
 import { useFeedbackForm } from '~/composables/feedback-form'
 
-const { createFields, form, errors, setFormField } = useFeedbackForm()
+const {
+  createFields,
+  form,
+  errors,
+  setFormField,
+  submitForm,
+  resetForm,
+  isValid,
+} = useFeedbackForm()
 const title = computed(() => {
   return 'Create New Feedback'
 })
@@ -31,8 +39,13 @@ const title = computed(() => {
       :error="errors.get(field.slug)"
       @on-change="(v) => setFormField(field.slug, v)" />
     <section class="mt-6 flex justify-end px-4">
-      <button class="btn btn-accent mr-4">Cancel</button>
-      <button class="btn btn-primary">Create new</button>
+      <button class="btn btn-accent mr-4" @click="resetForm">Cancel</button>
+      <button
+        class="btn btn-primary"
+        :class="{ 'opacity-50 cursor-not-allowed': !isValid }"
+        @click="submitForm">
+        Create new
+      </button>
     </section>
   </div>
 </template>

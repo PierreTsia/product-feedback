@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { useFeedbacks } from '~/composables/feedbacks'
-const { feedbacks } = await useFeedbacks()
+const { feedbacks, getFeedbacks } = await useFeedbacks()
+onBeforeMount(async () => {
+  if (!feedbacks.value?.length) {
+    await getFeedbacks()
+  }
+})
 </script>
 
 <template>

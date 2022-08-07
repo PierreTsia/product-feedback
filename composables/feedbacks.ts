@@ -1,22 +1,36 @@
 export interface FeedbackDto {
   id: number
   title: string
-  category: string
+  category: { name: string }
   upvotes: number
   status: string
   description: string
   comments?: any[]
 }
 
-const state = reactive({
-  feedbacks: [] as FeedbackDto[],
-  errors: null as any,
-})
+export const useFeedbacks = () => {
+  const state = reactive({
+    feedbacks: [] as FeedbackDto[],
+    errors: null as any,
+  })
 
-export const useFeedbacks = async () => {
-  const { data, error } = await useFetch('/api/feedBacks')
-  state.feedbacks = (data.value?.productRequests as FeedbackDto[]) ?? []
-  state.errors = error.value
+  const addFeedback = async (feedback: any) => {
+    const { data } = await $fetch('/api/add-feedback', {
+      method: 'POST',
+      body: feedback,
+    })
+    if (data) {
+      const [newFeedback] = data
+      state.feedbacks.unshift(newFeedback)
+    }
+  }
 
-  return { ...toRefs(state) }
+  const getFeedbacks = async () => {
+    const { data, error } = await useFetch('/api/get-feedbacks')
+
+    state.feedbacks = (data.value?.productRequests as FeedbackDto[]) ?? []
+    state.errors = error.value
+  }
+
+  return { ...toRefs(state), getFeedbacks, addFeedback }
 }

@@ -24,7 +24,7 @@ defineProps<{ feedback: FeedbackDto }>()
         {{ feedback.description }}
       </h6>
       <div class="w-full flex justify-start mt-4">
-        <span class="tag text-13px">{{ feedback.category }}</span>
+        <span class="tag text-13px">{{ feedback.category.name }}</span>
       </div>
       <div class="flex sm:hidden justify-between px-8 mt-10">
         <span
