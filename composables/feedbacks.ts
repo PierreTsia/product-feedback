@@ -9,28 +9,28 @@ export interface FeedbackDto {
 }
 
 export const useFeedbacks = () => {
-  const state = reactive({
-    feedbacks: [] as FeedbackDto[],
-    errors: null as any,
-  })
-
-  const addFeedback = async (feedback: any) => {
-    const { data } = await $fetch('/api/add-feedback', {
+  const createNewFeedback = async (feedback: any) => {
+    const { data, error } = await $fetch('/api/add-feedback', {
       method: 'POST',
       body: feedback,
     })
+    if (error && error?.message) {
+      throw new Error(error.message)
+    }
+
     if (data) {
       const [newFeedback] = data
-      state.feedbacks.unshift(newFeedback)
+      return newFeedback
     }
   }
 
   const getFeedbacks = async () => {
-    const { data, error } = await useFetch('/api/get-feedbacks')
+    const { data } = await $fetch('/api/all-feedbacks', {
+      method: 'GET',
+    })
 
-    state.feedbacks = (data.value?.productRequests as FeedbackDto[]) ?? []
-    state.errors = error.value
+    return data ?? []
   }
 
-  return { ...toRefs(state), getFeedbacks, addFeedback }
+  return { getFeedbacks, createNewFeedback }
 }

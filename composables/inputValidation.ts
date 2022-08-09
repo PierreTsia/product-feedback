@@ -1,4 +1,4 @@
-import { ValidationFn } from '~/composables/types'
+import type { ValidationFn } from '~/composables/types'
 
 export const useInputRules = () => {
   const hasMinLength: ValidationFn = (value: string, min = 3) => {
@@ -23,18 +23,6 @@ export const useInputValidation = () => {
   const isFocused = ref(false)
   const hasBeenFocused = ref(false)
 
-  const errorMessages = computed(() => {
-    return []
-    /*     if (!rules?.length) {
-      return []
-    }
-
-    return rules.map((r) => r(modelValue)).filter((e) => typeof e === 'string') */
-  })
-
-/*   const hasError = computed(() => {
-    return !!errorMessages.value.length
-  }) */
   const setFocus = (arg = true) => {
     hasBeenFocused.value = true
     isFocused.value = arg
@@ -47,6 +35,5 @@ export const useInputValidation = () => {
     inputRef,
     isFocused,
     hasBeenFocused,
-    errorMessages,
   }
 }

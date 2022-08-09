@@ -8,6 +8,7 @@ import type {
   FormKey,
   InputType,
 } from '~/composables/types'
+import { useFeedbackStore } from '~/store/feedback.store'
 
 const categories = computed(() =>
   ['Feature', 'Ui', 'Ux', 'Enhancement', 'Bug'].map((name, i) => ({
@@ -17,9 +18,8 @@ const categories = computed(() =>
 )
 
 export const useFeedbackForm = (): FeedbackComposition => {
+  const { addFeedback } = useFeedbackStore()
   const { hasMinLength, hasMaxLength } = useInputRules()
-  const { addFeedback } = useFeedbacks()
-  const router = useRouter()
 
   const form = ref({
     title: '',
@@ -62,8 +62,7 @@ export const useFeedbackForm = (): FeedbackComposition => {
     if (!isValid.value) {
       return
     }
-    await addFeedback(form.value)
-    router.push('/')
+    await addFeedback(form.value, '/')
   }
 
   const createFields: Ref<Field[]> = ref([

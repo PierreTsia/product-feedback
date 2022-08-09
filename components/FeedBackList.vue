@@ -1,11 +1,6 @@
 <script setup lang="ts">
-import { useFeedbacks } from '~/composables/feedbacks'
-const { feedbacks, getFeedbacks } = await useFeedbacks()
-onBeforeMount(async () => {
-  if (!feedbacks.value?.length) {
-    await getFeedbacks()
-  }
-})
+import type { FeedbackDto } from '~/composables/feedbacks'
+defineProps<{ feedbacks: FeedbackDto[] }>()
 </script>
 
 <template>
