@@ -3,16 +3,24 @@ import { defineStore } from 'pinia'
 import { useFeedbacks } from '~/composables/feedbacks'
 import type { FeedbackDto } from '~/composables/feedbacks'
 
-const { getFeedbacks, createNewFeedback } = useFeedbacks()
+const { getFeedbacks, createNewFeedback, getFeedbackById } = useFeedbacks()
 
 export const useFeedbackStore = defineStore('feedbacks', () => {
+  const router = useRouter()
+
   const feedbacks: Ref<FeedbackDto[]> = ref([] as FeedbackDto[])
   const isLoading: Ref<boolean> = ref(false)
-  const router = useRouter()
+  const activeFeedback: Ref<FeedbackDto | null> = ref(null)
 
   const fetchAllFeedbacks = async () => {
     isLoading.value = true
     feedbacks.value = await getFeedbacks()
+    isLoading.value = false
+  }
+
+  const fetchFeedbackById = async (id: string) => {
+    isLoading.value = true
+    activeFeedback.value = await getFeedbackById(+id)
     isLoading.value = false
   }
 
@@ -37,5 +45,12 @@ export const useFeedbackStore = defineStore('feedbacks', () => {
     }
   }
 
-  return { feedbacks, fetchAllFeedbacks, addFeedback, isLoading }
+  return {
+    feedbacks,
+    fetchAllFeedbacks,
+    fetchFeedbackById,
+    addFeedback,
+    isLoading,
+    activeFeedback,
+  }
 })

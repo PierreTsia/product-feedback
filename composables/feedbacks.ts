@@ -32,5 +32,19 @@ export const useFeedbacks = () => {
     return data ?? []
   }
 
-  return { getFeedbacks, createNewFeedback }
+  const getFeedbackById = async (id: number) => {
+    // @ts-expect-error IDK why TS does not infer return type here
+    const { data, error } = await $fetch(`/api/feedback/${id}`, {
+      method: 'GET',
+    })
+    if (error && error?.message) {
+      throw new Error(error.message)
+    }
+    if (data) {
+      const [newFeedback] = data
+      return newFeedback
+    }
+  }
+
+  return { getFeedbacks, createNewFeedback, getFeedbackById }
 }

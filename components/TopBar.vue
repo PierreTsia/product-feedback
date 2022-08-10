@@ -2,44 +2,66 @@
 import { storeToRefs } from 'pinia'
 import { useFeedbackStore } from '~/store/feedback.store'
 
+defineEmits<{
+  (e: 'onSortChange', o: { slug: SortOption; direction: string }): void
+}>()
+
+enum SortOption {
+  Upvotes = 'upvotes',
+  Comments = 'comments',
+}
+
+enum SortDirection {
+  Asc = 'asc',
+  Desc = 'desc',
+}
+
 const feedbackStore = useFeedbackStore()
 const { feedbacks } = storeToRefs(feedbackStore)
 
-const categories = [
-  'Most Upvotes',
-  'Least Upvotes',
-  'Most Comments',
-  'Least Comments',
-].map((name, i) => ({ id: i, name }))
+const sortOptionsData = [
+  ['Most Upvotes', SortOption.Upvotes, SortDirection.Desc],
+  ['Least Upvotes', SortOption.Upvotes, SortDirection.Asc],
+  ['Most Comments', SortOption.Comments, SortDirection.Desc],
+  ['Least Comments', SortOption.Comments, SortDirection.Asc],
+].map(([name, slug, direction], i) => ({ id: i, name, slug, direction }))
 
-const selectedCategory = ref(categories[0])
-const setSelectedCategory = (
-  category: { id: number; name: string },
+const selectedSortOption = ref(sortOptionsData[0])
+
+const setSelectedSortOption = (
+  category: {
+    id: number
+    name: string
+    slug: SortOption
+    direction: SortDirection
+  },
   toggleDropDown: () => void
 ) => {
-  selectedCategory.value = category
+  selectedSortOption.value = category
   toggleDropDown()
 }
 </script>
 
 <template>
   <aside
-    class="w-full bg-yankee-blue py-4 px-6 rounded-lg text-white flex justify-start items-baseline">
+    class="w-full bg-yankee-blue py-4 md:px-6 px-1 rounded-lg text-white flex justify-start items-center text-xs md:text-sm">
     <img
       class="hidden md:inline-block w-6 h-6 mr-2"
       src="/assets/suggestions/icon-suggestions.svg"
       alt="icon suggestions" />
 
-    <span class="text-xl font-bold mr-8">{{ feedbacks.length }} Suggestions</span>
+    <span class="hidden md:inline-block text-xl font-bold mr-8"
+      >{{ feedbacks.length }} Suggestions</span
+    >
 
-    <span class="ml-4"> Sort By:</span>
+    <span class="ml-0 w-50px md:ml-4"> Sort By:</span>
 
     <DropDown>
       <template #activator="{ activatorProps }">
         <div
-          class="w-200px center-between appearance-none rounded py-3 px-3 leading-tight focus:outline-none focus:shadow-outline mr-2 w-full text-white"
+          class="w-170px center-between appearance-none rounded py-3 px-3 leading-tight focus:outline-none focus:shadow-outline mr-2 w-full text-white"
           :class="{ 'border border-royal-blue': activatorProps.isVisible }">
-          <span class="font-bold">{{ selectedCategory.name }}</span>
+          <span class="font-bold w-300px">{{ selectedSortOption.name }}</span>
           <img
             class="w-3 inline-block ml-2"
             src="/assets/shared/icon-arrow-down.svg"
@@ -51,13 +73,13 @@ const setSelectedCategory = (
         <div class="flex flex-col w-255px rounded-lg shadow-xl bg-white">
           <ul class="flex flex-col w-full text-dark-blue-gray text-16px">
             <li
-              v-for="category in categories"
-              :key="category.id"
+              v-for="option in sortOptionsData"
+              :key="option.id"
               class="inline-flex items-center justify-between hover:text-russian-violet w-full px-2 py-3 cursor-pointer text-left border-b-0.5 border-gray-200 last:border-b-none"
-              @click="setSelectedCategory(category, content.toggle)">
-              <span>{{ category.name }}</span>
+              @click="setSelectedSortOption(option, content.toggle)">
+              <span>{{ option.name }}</span>
               <img
-                v-show="selectedCategory.id === category.id"
+                v-show="selectedSortOption.id === option.id"
                 class="w-3 inline-block"
                 src="/assets/shared/icon-check.svg"
                 alt="icon arrow down" />
