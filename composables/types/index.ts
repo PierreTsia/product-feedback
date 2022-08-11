@@ -27,3 +27,16 @@ export interface FeedbackComposition {
   submitForm: () => void
   isValid: Ref<boolean>
 }
+
+export interface Comment {
+  id: number
+  content: string
+  user: User
+}
+
+export interface User {
+  id: number
+  username: string
+  name: string
+  image: string
+}

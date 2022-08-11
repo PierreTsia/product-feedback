@@ -1,13 +1,7 @@
-<script lang="ts" setup>
-defineEmits<{
-  (e: 'onGoBack'): void
-}>()
-</script>
-
 <template>
   <span
     class="group cursor-pointer text-sm text-yankee-blue inline-flex justify-center items-center"
-    @click="$emit('onGoBack')">
+    @click="$router.back()">
     <img
       class="w-2 inline-block mr-2"
       src="/assets/shared/icon-arrow-left.svg"

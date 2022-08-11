@@ -10,6 +10,8 @@ export const feedbackQueryString = `
         content, 
         user (
           id, 
-          username
+          username,
+          name,
+          image
         )
       )`
