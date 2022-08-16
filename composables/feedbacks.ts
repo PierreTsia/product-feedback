@@ -16,7 +16,7 @@ interface OrderParam {
   direction?: OrderDirection
 }
 
-enum HttpVerbs {
+export enum HttpVerbs {
   Put = 'PUT',
   Post = 'POST',
   Delete = 'DELETE',

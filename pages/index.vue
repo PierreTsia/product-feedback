@@ -6,7 +6,7 @@ import { useFeedbackStore } from '~/store/feedback.store'
 const feedbackStore = useFeedbackStore()
 const { feedbacks, isLoading } = storeToRefs(feedbackStore)
 
-onBeforeMount(async () => {
+onMounted(async () => {
   if (feedbacks.value.length <= 1) {
     await feedbackStore.fetchAllFeedbacks()
   }
@@ -15,7 +15,6 @@ onBeforeMount(async () => {
 
 <template>
   <div>
-    <!--    <button @click="$router.push('/create-feedback')">create</button>-->
     <div
       v-if="isLoading"
       class="flex flex-col justify-center h-200 op50 italic">

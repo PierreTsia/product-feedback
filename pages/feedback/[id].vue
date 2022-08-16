@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
+import CommentInput from '~/components/CommentInput.vue'
 import { useFeedbackStore } from '~/store/feedback.store'
 
 const feedbackStore = useFeedbackStore()
@@ -24,7 +25,8 @@ onMounted(async () => {
     <div v-if="isLoading">Loading...</div>
     <div v-else-if="activeFeedback">
       <FeedBackCard :feedback="activeFeedback" class="mb-4" />
-      <CommentsList :comments="activeFeedback.comments" />
+      <CommentsList :comments="activeFeedback.comments" class="mb-4" />
+      <CommentInput />
     </div>
     <NotFound v-else />
   </div>

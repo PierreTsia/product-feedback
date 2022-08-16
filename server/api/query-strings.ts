@@ -1,3 +1,16 @@
+export const userQueryString = `
+          id, 
+          username,
+          name,
+          image`
+
+export const commentQueryString = `
+        id, 
+        content, 
+        user (
+         ${userQueryString}
+        )`
+
 export const feedbackQueryString = `
       id, 
       title,
@@ -8,12 +21,6 @@ export const feedbackQueryString = `
       ), 
       upvotes, 
       comments (
-        id, 
-        content, 
-        user (
-          id, 
-          username,
-          name,
-          image
+        ${commentQueryString}
         )
       )`

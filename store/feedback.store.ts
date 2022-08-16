@@ -1,9 +1,11 @@
 import type { Ref } from '@vue/reactivity'
-import { defineStore } from 'pinia'
+import { defineStore, storeToRefs } from 'pinia'
+import { useComments } from '~/composables/comments'
 import type { FeedbackDto } from '~/composables/feedbacks'
 import { useFeedbacks } from '~/composables/feedbacks'
 import type { FeedbackCategory } from '~/composables/types'
 import { OrderBy, OrderDirection } from '~/composables/types'
+import { useUserStore } from '~/store/user.store'
 
 const {
   getFeedbacks,
@@ -14,8 +16,12 @@ const {
   deleteFeedbackById,
 } = useFeedbacks()
 
+const { postNewComment } = useComments()
+
 export const useFeedbackStore = defineStore('feedbacks', () => {
   const router = useRouter()
+  const userStore = useUserStore()
+  const { currentUser } = storeToRefs(userStore)
 
   const feedbacks: Ref<FeedbackDto[]> = ref([] as FeedbackDto[])
   const isLoading: Ref<boolean> = ref(false)
@@ -103,6 +109,35 @@ export const useFeedbackStore = defineStore('feedbacks', () => {
     }
   }
 
+  const addCommentToFeedback = async ({
+    content,
+    feedbackId,
+  }: {
+    content: string
+    feedbackId: number
+  }) => {
+    if (!currentUser.value?.id) {
+      return
+    }
+
+    try {
+      const newComment = await postNewComment({
+        content,
+        feedbackId,
+        userId: currentUser.value.id,
+      })
+      if (!activeFeedback.value) {
+        return
+      } else if (!activeFeedback.value?.comments?.length) {
+        activeFeedback.value.comments = [newComment]
+      } else {
+        activeFeedback.value.comments.push(newComment)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return {
     feedbacks,
     categories,
@@ -112,6 +147,7 @@ export const useFeedbackStore = defineStore('feedbacks', () => {
     addFeedback,
     updateFeedback,
     deleteFeedback,
+    addCommentToFeedback,
     isLoading,
     activeFeedback,
   }
