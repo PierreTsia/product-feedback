@@ -14,6 +14,7 @@ export interface FeedbackDto {
 interface OrderParam {
   orderBy: OrderBy
   direction?: OrderDirection
+  filters?: number[]
 }
 
 export enum HttpVerbs {

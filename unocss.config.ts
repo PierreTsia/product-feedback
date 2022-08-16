@@ -21,7 +21,7 @@ export default defineConfig({
     ['btn-danger', 'bg-vivid-red hover:bg-vivid-red-light'],
     [
       'tag',
-      'inline-block px-4 py-1 rounded-lg font-bold bg-alice-gray text-royal-blue cursor-pointer select-none  hover:bg-blue-gray ',
+      'inline-block px-4 py-1 h-30px rounded-lg font-bold bg-alice-gray text-royal-blue cursor-pointer select-none  hover:bg-blue-gray ',
     ],
     ['tag-active', 'bg-royal-blue text-white !hover:bg-royal-blue'],
     ['text-primary', 'text-yankee-blue'],

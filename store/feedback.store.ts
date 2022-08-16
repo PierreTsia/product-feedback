@@ -5,6 +5,7 @@ import type { FeedbackDto } from '~/composables/feedbacks'
 import { useFeedbacks } from '~/composables/feedbacks'
 import type { FeedbackCategory } from '~/composables/types'
 import { OrderBy, OrderDirection } from '~/composables/types'
+import { useFilterStore } from '~/store/filters.store'
 import { useUserStore } from '~/store/user.store'
 
 const {
@@ -22,6 +23,8 @@ export const useFeedbackStore = defineStore('feedbacks', () => {
   const router = useRouter()
   const userStore = useUserStore()
   const { currentUser } = storeToRefs(userStore)
+  const filtersStore = useFilterStore()
+  const { activeFilters } = storeToRefs(filtersStore)
 
   const feedbacks: Ref<FeedbackDto[]> = ref([] as FeedbackDto[])
   const isLoading: Ref<boolean> = ref(false)
@@ -33,6 +36,7 @@ export const useFeedbackStore = defineStore('feedbacks', () => {
     feedbacks.value = await getFeedbacks({
       orderBy: OrderBy.CreatedAt,
       direction: OrderDirection.Asc,
+      filters: activeFilters.value,
     })
     isLoading.value = false
   }
