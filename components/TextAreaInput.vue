@@ -28,7 +28,7 @@ const { isFocused, hasBeenFocused, setFocus } = useInputValidation()
     <textarea
       ref="inputRef"
       v-model="data"
-      class="w-full min-h-30 appearance-none bg-ghost-white rounded py-2 px-3 text-east-bay-blue text-sm mb-3 leading-tight focus:outline-none focus:shadow-outline"
+      class="resize-none w-full min-h-30 appearance-none bg-ghost-white rounded py-2 px-3 text-east-bay-blue text-sm mb-3 leading-tight focus:outline-none focus:shadow-outline"
       :class="{
         'border border-royal-blue': isFocused,
         'border border-vivid-red text-vivid-red': hasBeenFocused && hasError,

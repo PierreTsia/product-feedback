@@ -1,10 +1,10 @@
 import type { Ref } from '@vue/reactivity'
 
 export type InputType = 'text' | 'select' | 'textarea'
-export type FormKey = 'title' | 'details' | 'category'
+export type FormKey = 'title' | 'description' | 'category'
 
 export interface ValidationFn {
-  (value: string, args?: any): boolean | string
+  (value: any, args?: any): boolean | string
 }
 
 export interface Field {
@@ -18,10 +18,16 @@ export interface Field {
 
 export type FieldErrors = Map<FormKey, string | null>
 
+export interface CreateFeedbackForm {
+  title: string
+  description: string
+  category: FeedbackCategory
+}
+
 export interface FeedbackComposition {
   createFields: Ref<Field[]>
-  form: Ref<{ [key: string]: string }>
-  setFormField: (s: FormKey, v?: string) => void
+  form: Ref<CreateFeedbackForm>
+  setFormField: (s: FormKey, v: string | FeedbackCategory) => void
   resetForm: () => void
   errors: Ref<FieldErrors>
   submitForm: () => void
@@ -39,4 +45,19 @@ export interface User {
   username: string
   name: string
   image: string
+}
+
+export enum OrderBy {
+  Upvotes = 'upvotes',
+  CreatedAt = 'created_at',
+}
+
+export enum OrderDirection {
+  Asc = 'asc',
+  Desc = 'desc',
+}
+
+export interface FeedbackCategory {
+  id: number
+  name: string
 }

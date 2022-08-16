@@ -1,7 +1,18 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
 import { useFeedbackForm } from '~/composables/feedback-form'
+import type { FeedbackDto } from '~/composables/feedbacks'
 import { useFeedbackStore } from '~/store/feedback.store'
+
+const props = withDefaults(defineProps<{ feedback?: FeedbackDto | null }>(), {
+  feedback: null,
+})
+
+const isEditMode = computed(() => !!props?.feedback)
+
+const imgUrl = isEditMode.value
+  ? 'icon-edit-feedback.svg'
+  : 'icon-new-feedback.svg'
 
 const {
   createFields,
@@ -13,12 +24,36 @@ const {
   isValid,
 } = useFeedbackForm()
 
-const title = computed(() => {
-  return 'Create New Feedback'
-})
+const title = computed(() =>
+  isEditMode.value
+    ? `Editing "${props.feedback?.title}"`
+    : 'Create New Feedback'
+)
+
+const onCancelClick = () => {
+  if (isEditMode.value && props.feedback) {
+    setFormField('title', props.feedback.title)
+    setFormField('description', props.feedback.description)
+    setFormField('category', props.feedback.category)
+  } else {
+    resetForm()
+  }
+}
 
 const feedbackStore = useFeedbackStore()
-const { isLoading } = storeToRefs(feedbackStore)
+const { isLoading, categories } = storeToRefs(feedbackStore)
+
+watch(
+  () => props.feedback,
+  (feedback) => {
+    if (feedback) {
+      setFormField('title', feedback.title)
+      setFormField('description', feedback.description)
+      setFormField('category', feedback.category)
+    }
+  },
+  { immediate: true }
+)
 </script>
 
 <template>
@@ -26,7 +61,7 @@ const { isLoading } = storeToRefs(feedbackStore)
     class="pt-20 pb-8 px-6 flex flex-col bg-white rounded-lg w-full md:w-2/3 mx-auto relative">
     <img
       class="w-14 absolute -top-7 left-10"
-      src="/assets/shared/icon-new-feedback.svg"
+      :src="`/assets/shared/${imgUrl}`"
       alt="new feedback icon" />
 
     <section class="px-4 mb-8">
@@ -38,14 +73,14 @@ const { isLoading } = storeToRefs(feedbackStore)
       class="mb-6"
       :title="field.title"
       :description="field.description"
-      :options="field?.options"
+      :options="categories"
       :type="field.type"
       :slug="field.slug"
       :value="form[field.slug]"
       :error="errors.get(field.slug)"
       @on-change="(v) => setFormField(field.slug, v)" />
     <section class="mt-6 flex justify-end px-4">
-      <button class="btn btn-accent mr-4" @click="resetForm">Cancel</button>
+      <button class="btn btn-accent mr-4" @click="onCancelClick">Cancel</button>
       <button
         class="btn btn-primary flex"
         :class="{ 'opacity-50 cursor-not-allowed': !isValid || isLoading }"

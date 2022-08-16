@@ -1,7 +1,9 @@
 export const feedbackQueryString = `
       id, 
-      title, 
+      title,
+      description, 
       category (
+        id,
         name
       ), 
       upvotes, 

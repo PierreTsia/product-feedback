@@ -1,29 +1,20 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
+import { OrderBy, OrderDirection } from '~/composables/types'
 import { useFeedbackStore } from '~/store/feedback.store'
 
 defineEmits<{
-  (e: 'onSortChange', o: { slug: SortOption; direction: string }): void
+  (e: 'onSortChange', o: { slug: OrderBy; direction: string }): void
 }>()
-
-enum SortOption {
-  Upvotes = 'upvotes',
-  Comments = 'comments',
-}
-
-enum SortDirection {
-  Asc = 'asc',
-  Desc = 'desc',
-}
 
 const feedbackStore = useFeedbackStore()
 const { feedbacks } = storeToRefs(feedbackStore)
 
 const sortOptionsData = [
-  ['Most Upvotes', SortOption.Upvotes, SortDirection.Desc],
-  ['Least Upvotes', SortOption.Upvotes, SortDirection.Asc],
-  ['Most Comments', SortOption.Comments, SortDirection.Desc],
-  ['Least Comments', SortOption.Comments, SortDirection.Asc],
+  ['Most Upvotes', OrderBy.Upvotes, OrderDirection.Desc],
+  ['Least Upvotes', OrderBy.Upvotes, OrderDirection.Asc],
+  ['Newest', OrderBy.CreatedAt, OrderDirection.Desc],
+  ['Oldest', OrderBy.CreatedAt, OrderDirection.Asc],
 ].map(([name, slug, direction], i) => ({ id: i, name, slug, direction }))
 
 const selectedSortOption = ref(sortOptionsData[0])
@@ -32,8 +23,8 @@ const setSelectedSortOption = (
   category: {
     id: number
     name: string
-    slug: SortOption
-    direction: SortDirection
+    slug: OrderBy
+    direction: OrderDirection
   },
   toggleDropDown: () => void
 ) => {

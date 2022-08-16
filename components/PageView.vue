@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useInputValidation } from '~/composables/inputValidation'
+import type { FeedbackCategory } from '~/composables/types'
 
 const { data } = await useFetch('/api/pageview')
 const name = ref('')
@@ -11,7 +12,7 @@ const categories = ['Feature', 'Ui', 'Ux', 'Enhancement', 'Bug'].map(
 
 const selectedCategory = ref(categories[0])
 const setSelectedCategory = (
-  category: { id: number; name: string },
+  category: FeedbackCategory,
   toggleDropDown: () => void
 ) => {
   selectedCategory.value = category

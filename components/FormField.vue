@@ -1,27 +1,29 @@
 <script lang="ts" setup>
-import type { FormKey, InputType } from '~/composables/types'
+import type { FeedbackCategory, FormKey, InputType } from '~/composables/types'
 
-withDefaults(defineProps<FormFieldProps>(), {
+const props = withDefaults(defineProps<FormFieldProps>(), {
   title: 'Feedback title',
   description: 'Add a short, descriptive headline',
   value: '',
   type: 'text',
   slug: 'title' as FormKey,
 })
-
 defineEmits<{
-  (e: 'onChange', val: string, slug: FormKey): void
+  (e: 'onChange', val: string | number, slug: FormKey): void
 }>()
-
 interface FormFieldProps {
   title: string
   description: string
-  value: string
+  value: string | FeedbackCategory
   slug: FormKey
   type?: InputType
-  options?: { id: number; name: string }[]
+  options?: FeedbackCategory[]
   error?: string | null
 }
+
+const selectModelValue = computed(() => {
+  return props?.options?.find((o: FeedbackCategory) => o.id === props.value?.id )
+})
 </script>
 
 <template>
@@ -43,6 +45,7 @@ interface FormFieldProps {
     <SelectInput
       v-else-if="type === 'select'"
       :options="options"
-      @on-select-option="(o) => $emit('onChange', o.id, slug)" />
+      :model-value="selectModelValue"
+      @on-select-option="(o) => $emit('onChange', o, slug)" />
   </section>
 </template>

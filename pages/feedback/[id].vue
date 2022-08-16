@@ -12,10 +12,14 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="max-w-800px mx-auto">
+  <div class="max-w-900px mx-auto">
     <aside class="flex justify-between px-4 py-2 mb-5">
       <NavigateBackButton />
-      <button class="btn btn-secondary">Edit Feedback</button>
+      <button
+        class="btn btn-secondary"
+        @click="$router.push(`/update-feedback/${activeFeedback.id}`)">
+        Edit Feedback
+      </button>
     </aside>
     <div v-if="isLoading">Loading...</div>
     <div v-else-if="activeFeedback">

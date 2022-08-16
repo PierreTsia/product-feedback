@@ -1,11 +1,19 @@
+import { OrderBy, OrderDirection } from '~/composables/types'
+
 export interface FeedbackDto {
   id: number
   title: string
-  category: { name: string }
+  category: { name: string; id: number }
   upvotes: number
   status: string
   description: string
   comments?: any[]
+  comments_count?: number
+}
+
+interface OrderParam {
+  orderBy: OrderBy
+  direction?: OrderDirection
 }
 
 export const useFeedbacks = () => {
@@ -24,9 +32,28 @@ export const useFeedbacks = () => {
     }
   }
 
-  const getFeedbacks = async () => {
+  const getCategories = async () => {
+    const { data, error } = await $fetch('/api/all-categories', {
+      method: 'GET',
+    })
+    if (error && error?.message) {
+      throw new Error(error.message)
+    }
+
+    if (data) {
+      return data
+    }
+  }
+
+  const getFeedbacks = async (
+    orderParams: OrderParam = {
+      orderBy: OrderBy.CreatedAt,
+      direction: OrderDirection.Desc,
+    }
+  ) => {
     const { data } = await $fetch('/api/all-feedbacks', {
       method: 'GET',
+      params: orderParams,
     })
 
     return data ?? []
@@ -46,5 +73,5 @@ export const useFeedbacks = () => {
     }
   }
 
-  return { getFeedbacks, createNewFeedback, getFeedbackById }
+  return { getFeedbacks, createNewFeedback, getFeedbackById, getCategories }
 }

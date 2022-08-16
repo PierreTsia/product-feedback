@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 interface SelectInputProps {
-  options: { id: number; name: string }[],
-
+  options: { id: number; name: string }[]
+  modelValue: { id: number; name: string } | null
 }
 const props = defineProps<SelectInputProps>()
 const emit = defineEmits<{
   (e: 'onSelectOption', o: { id: number; name: string }): void
 }>()
 
-const selectedOption = ref(props?.options?.[0])
+const selectedOption = ref(props?.modelValue)
 
 const setSelectedOption = (
   option: { id: number; name: string },
@@ -18,8 +18,18 @@ const setSelectedOption = (
   toggleDropDown()
 }
 
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    selectedOption.value = newValue
+  },
+  { immediate: false }
+)
+
 watch(selectedOption, (option) => {
-  emit('onSelectOption', option)
+  if (option) {
+    emit('onSelectOption', option)
+  }
 })
 </script>
 
@@ -47,7 +57,7 @@ watch(selectedOption, (option) => {
             @click="setSelectedOption(option, content.toggle)">
             <span>{{ option.name }}</span>
             <img
-              v-show="selectedOption.id === option.id"
+              v-show="selectedOption?.id === option?.id"
               class="w-3 inline-block"
               src="/assets/shared/icon-check.svg"
               alt="icon arrow down" />
