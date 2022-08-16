@@ -16,10 +16,17 @@ interface OrderParam {
   direction?: OrderDirection
 }
 
+enum HttpVerbs {
+  Put = 'PUT',
+  Post = 'POST',
+  Delete = 'DELETE',
+  Get = 'GET',
+}
+
 export const useFeedbacks = () => {
   const createNewFeedback = async (feedback: any) => {
     const { data, error } = await $fetch('/api/add-feedback', {
-      method: 'POST',
+      method: HttpVerbs.Post,
       body: feedback,
     })
     if (error && error?.message) {
@@ -34,7 +41,7 @@ export const useFeedbacks = () => {
 
   const getCategories = async () => {
     const { data, error } = await $fetch('/api/all-categories', {
-      method: 'GET',
+      method: HttpVerbs.Get,
     })
     if (error && error?.message) {
       throw new Error(error.message)
@@ -52,7 +59,7 @@ export const useFeedbacks = () => {
     }
   ) => {
     const { data } = await $fetch('/api/all-feedbacks', {
-      method: 'GET',
+      method: HttpVerbs.Get,
       params: orderParams,
     })
 
@@ -62,7 +69,7 @@ export const useFeedbacks = () => {
   const getFeedbackById = async (id: number) => {
     // @ts-expect-error IDK why TS does not infer return type here
     const { data, error } = await $fetch(`/api/feedback/${id}`, {
-      method: 'GET',
+      method: HttpVerbs.Get,
     })
     if (error && error?.message) {
       throw new Error(error.message)
@@ -73,5 +80,41 @@ export const useFeedbacks = () => {
     }
   }
 
-  return { getFeedbacks, createNewFeedback, getFeedbackById, getCategories }
+  const updateFeedbackById = async (feedbackId: number, feedback: any) => {
+    // @ts-expect-error IDK why TS does not infer return type here
+    const { data, error } = await $fetch(`/api/feedback/${feedbackId}`, {
+      method: HttpVerbs.Put,
+      body: feedback,
+    })
+    if (error && error?.message) {
+      throw new Error(error.message)
+    }
+    if (data) {
+      const [newFeedback] = data
+      return newFeedback
+    }
+  }
+
+  const deleteFeedbackById = async (feedbackId: number) => {
+    // @ts-expect-error IDK why TS does not infer return type here
+    const { data, error } = await $fetch(`/api/feedback/${feedbackId}`, {
+      method: HttpVerbs.Delete,
+    })
+    if (error && error?.message) {
+      throw new Error(error.message)
+    }
+    if (data) {
+      const [deletedFeedback] = data
+      return deletedFeedback.id
+    }
+  }
+
+  return {
+    getFeedbacks,
+    createNewFeedback,
+    getFeedbackById,
+    getCategories,
+    updateFeedbackById,
+    deleteFeedbackById,
+  }
 }

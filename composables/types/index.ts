@@ -30,7 +30,7 @@ export interface FeedbackComposition {
   setFormField: (s: FormKey, v: string | FeedbackCategory) => void
   resetForm: () => void
   errors: Ref<FieldErrors>
-  submitForm: () => void
+  submitForm: (feedbackId?:number) => void
   isValid: Ref<boolean>
 }
 

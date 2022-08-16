@@ -2,11 +2,17 @@ import type { Ref } from '@vue/reactivity'
 import { defineStore } from 'pinia'
 import type { FeedbackDto } from '~/composables/feedbacks'
 import { useFeedbacks } from '~/composables/feedbacks'
-import type { FeedbackCategory} from '~/composables/types';
+import type { FeedbackCategory } from '~/composables/types'
 import { OrderBy, OrderDirection } from '~/composables/types'
 
-const { getFeedbacks, createNewFeedback, getFeedbackById, getCategories } =
-  useFeedbacks()
+const {
+  getFeedbacks,
+  createNewFeedback,
+  getFeedbackById,
+  getCategories,
+  updateFeedbackById,
+  deleteFeedbackById,
+} = useFeedbacks()
 
 export const useFeedbackStore = defineStore('feedbacks', () => {
   const router = useRouter()
@@ -56,6 +62,47 @@ export const useFeedbackStore = defineStore('feedbacks', () => {
     }
   }
 
+  const updateFeedback = async (
+    feedbackId: number,
+    feedback: any,
+    redirectRoute?: string
+  ) => {
+    isLoading.value = true
+
+    try {
+      const { category, ...rest } = feedback
+      const payload = { ...rest, category: category.id }
+      const updatedFeedback = await updateFeedbackById(feedbackId, payload)
+      if (updatedFeedback) {
+        const replacedIndex = feedbacks.value.findIndex(
+          (f) => f.id === updatedFeedback.id
+        )
+        feedbacks.value[replacedIndex] = updatedFeedback
+        if (redirectRoute) {
+          router.push(redirectRoute)
+        }
+      }
+    } catch (error) {
+      console.error(error)
+    } finally {
+      isLoading.value = false
+    }
+  }
+
+  const deleteFeedback = async (feedbackId: number) => {
+    isLoading.value = true
+
+    try {
+      await deleteFeedbackById(feedbackId)
+      feedbacks.value = feedbacks.value.filter((f) => f.id !== feedbackId)
+      router.push('/')
+    } catch (error) {
+      console.error(error)
+    } finally {
+      isLoading.value = false
+    }
+  }
+
   return {
     feedbacks,
     categories,
@@ -63,6 +110,8 @@ export const useFeedbackStore = defineStore('feedbacks', () => {
     fetchAllCategories,
     fetchFeedbackById,
     addFeedback,
+    updateFeedback,
+    deleteFeedback,
     isLoading,
     activeFeedback,
   }

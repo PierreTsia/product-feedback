@@ -55,11 +55,19 @@ export const useFeedbackForm = (): FeedbackComposition => {
     return isValid
   })
 
-  const submitForm = async () => {
+  const submitForm = async (feedbackId?: number) => {
     if (!isValid.value) {
       return
     }
-    await feedbackStore.addFeedback(form.value, '/')
+    if (feedbackId) {
+      await feedbackStore.updateFeedback(
+        feedbackId,
+        form.value,
+        `/feedback/${feedbackId}`
+      )
+    } else {
+      await feedbackStore.addFeedback(form.value, '/')
+    }
   }
 
   const createFields: Ref<Field[]> = ref([

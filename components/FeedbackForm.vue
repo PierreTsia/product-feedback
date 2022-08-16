@@ -41,6 +41,15 @@ const onCancelClick = () => {
 }
 
 const feedbackStore = useFeedbackStore()
+const onConfirmClick = () => {
+  submitForm(props.feedback?.id)
+}
+const onDeleteClick = async () => {
+  if (!props.feedback) {
+    return
+  }
+  await feedbackStore.deleteFeedback(props.feedback?.id)
+}
 const { isLoading, categories } = storeToRefs(feedbackStore)
 
 watch(
@@ -80,11 +89,14 @@ watch(
       :error="errors.get(field.slug)"
       @on-change="(v) => setFormField(field.slug, v)" />
     <section class="mt-6 flex justify-end px-4">
+      <button class="btn btn-danger mr-auto" @click="onDeleteClick">
+        Delete
+      </button>
       <button class="btn btn-accent mr-4" @click="onCancelClick">Cancel</button>
       <button
         class="btn btn-primary flex"
         :class="{ 'opacity-50 cursor-not-allowed': !isValid || isLoading }"
-        @click="submitForm">
+        @click="onConfirmClick">
         <span v-if="isLoading" role="status">
           <svg
             aria-hidden="true"
@@ -102,7 +114,7 @@ watch(
           <span class="sr-only">Loading...</span>
         </span>
 
-        Create New
+        {{ isEditMode ? 'Edit feedback' : 'Add feedback' }}
       </button>
     </section>
   </div>
