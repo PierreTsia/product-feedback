@@ -3,7 +3,10 @@ import { defineStore, storeToRefs } from 'pinia'
 import { useComments } from '~/composables/comments'
 import type { FeedbackDto } from '~/composables/feedbacks'
 import { useFeedbacks } from '~/composables/feedbacks'
-import type { FeedbackCategory } from '~/composables/types'
+import type {
+  FeedbackCategory,
+  StatusesCount,
+} from '~/composables/types'
 import { OrderBy, OrderDirection } from '~/composables/types'
 import { useFilterStore } from '~/store/filters.store'
 import { useUserStore } from '~/store/user.store'
@@ -13,6 +16,7 @@ const {
   createNewFeedback,
   getFeedbackById,
   getCategories,
+  getStatusesCount,
   updateFeedbackById,
   deleteFeedbackById,
 } = useFeedbacks()
@@ -30,6 +34,7 @@ export const useFeedbackStore = defineStore('feedbacks', () => {
   const isLoading: Ref<boolean> = ref(false)
   const activeFeedback: Ref<FeedbackDto | null> = ref(null)
   const categories: Ref<FeedbackCategory[]> = ref([])
+  const statusesCount: Ref<StatusesCount[]> = ref([])
 
   const fetchAllFeedbacks = async () => {
     isLoading.value = true
@@ -43,6 +48,10 @@ export const useFeedbackStore = defineStore('feedbacks', () => {
 
   const fetchAllCategories = async () => {
     categories.value = (await getCategories()) ?? []
+  }
+
+  const countFeedbacksByStatuses = async () => {
+    statusesCount.value = (await getStatusesCount()) ?? []
   }
 
   const fetchFeedbackById = async (id: string) => {
@@ -145,8 +154,10 @@ export const useFeedbackStore = defineStore('feedbacks', () => {
   return {
     feedbacks,
     categories,
+    statusesCount,
     fetchAllFeedbacks,
     fetchAllCategories,
+    countFeedbacksByStatuses,
     fetchFeedbackById,
     addFeedback,
     updateFeedback,

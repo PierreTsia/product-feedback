@@ -53,6 +53,19 @@ export const useFeedbacks = () => {
     }
   }
 
+  const getStatusesCount = async () => {
+    const { data, error } = await $fetch('/api/statuses-count', {
+      method: HttpVerbs.Get,
+    })
+    if (error && error?.message) {
+      throw new Error(error.message)
+    }
+
+    if (data) {
+      return data
+    }
+  }
+
   const getFeedbacks = async (
     orderParams: OrderParam = {
       orderBy: OrderBy.CreatedAt,
@@ -115,6 +128,7 @@ export const useFeedbacks = () => {
     createNewFeedback,
     getFeedbackById,
     getCategories,
+    getStatusesCount,
     updateFeedbackById,
     deleteFeedbackById,
   }

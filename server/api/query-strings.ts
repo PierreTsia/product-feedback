@@ -19,7 +19,11 @@ export const feedbackQueryString = `
         id,
         name
       ), 
-      upvotes, 
+      upvotes,
+      status (
+        id,
+        name
+      ) 
       comments (
         ${commentQueryString}
         )

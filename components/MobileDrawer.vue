@@ -16,7 +16,8 @@ withDefaults(defineProps<{ isOpen: boolean }>(), {
       <div
         v-if="isOpen"
         class="w-full h-screen flex flex-col flex-1 bg-ghost-white p-4">
-        <CategoriesList />
+        <CategoriesList class="mb-10" />
+        <RoadmapSummary />
       </div>
     </div>
   </div>

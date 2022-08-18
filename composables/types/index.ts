@@ -30,7 +30,7 @@ export interface FeedbackComposition {
   setFormField: (s: FormKey, v: string | FeedbackCategory) => void
   resetForm: () => void
   errors: Ref<FieldErrors>
-  submitForm: (feedbackId?:number) => void
+  submitForm: (feedbackId?: number) => void
   isValid: Ref<boolean>
 }
 
@@ -60,4 +60,11 @@ export enum OrderDirection {
 export interface FeedbackCategory {
   id: number
   name: string
+}
+
+export interface StatusesCount {
+  status_id: number
+  status_name: string
+  status_color: string
+  status_count: number
 }
