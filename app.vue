@@ -12,17 +12,7 @@ useHead({
 </script>
 
 <template>
-  <NuxtLayout cl>
+  <NuxtLayout>
     <NuxtPage class="font-jost" />
   </NuxtLayout>
 </template>
-
-<style>
-html,
-body,
-#__nuxt {
-  height: 100vh;
-  margin: 0;
-  padding: 0;
-}
-</style>

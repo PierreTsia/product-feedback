@@ -35,7 +35,7 @@ const setSelectedSortOption = (
 
 <template>
   <aside
-    class="w-full bg-yankee-blue py-4 md:px-6 px-1 rounded-lg text-white flex justify-start items-center text-xs md:text-sm">
+    class="w-full bg-yankee-blue py-4 md:px-6 px-1 rounded-none md:rounded-lg text-white flex justify-start items-center text-xs md:text-sm">
     <img
       class="hidden md:inline-block w-6 h-6 mr-2"
       src="/assets/suggestions/icon-suggestions.svg"
