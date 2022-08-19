@@ -80,14 +80,6 @@ const setSelectedSortOption = (
       </template>
     </DropDown>
 
-    <button
-      class="btn btn-primary ml-auto"
-      @click="$router.push('/create-feedback')">
-      <img
-        class="w-3 h-3 inline-block"
-        src="/assets/shared/icon-plus.svg"
-        alt="icon suggestions" />
-      Add Feedback
-    </button>
+    <BaseAddFeedbackButton />
   </aside>
 </template>

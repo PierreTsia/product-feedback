@@ -67,4 +67,5 @@ export interface StatusesCount {
   status_name: string
   status_color: string
   status_count: number
+  status_description: string
 }

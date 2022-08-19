@@ -1,12 +1,20 @@
 <script setup lang="ts">
+import { useElementSize } from '@vueuse/core'
 import type { FeedbackDto } from '~/composables/feedbacks'
 
 defineProps<{ feedback: FeedbackDto }>()
+
+const el = ref(null)
+const { width } = useElementSize(el)
+
+const rowLayoutMinCardSize = 775
 </script>
 
 <template>
-  <div class="flex flex-row rounded-xl shadow-sm bg-white py-6">
-    <div class="hidden sm:flex sm:flex-none w-2/10 items-start justify-center">
+  <div ref="el" class="flex flex-row rounded-lg shadow-sm bg-white py-6 px-2">
+    <div
+      class="w-2/10 items-start justify-center"
+      :class="width > rowLayoutMinCardSize ? 'flex' : 'hidden'">
       <span
         class="tag text-13px flex flex-col items-center justify-center h-14 w-40px px-0">
         <img
@@ -16,7 +24,7 @@ defineProps<{ feedback: FeedbackDto }>()
         <span class="text-yankee-blue"> {{ feedback.upvotes }}</span>
       </span>
     </div>
-    <div class="grow px-4 sm:px-0">
+    <div class="grow px-4">
       <h1 class="font-bold text-18px text-yankee-blue text-left">
         {{ feedback.title }}
       </h1>
@@ -26,7 +34,9 @@ defineProps<{ feedback: FeedbackDto }>()
       <div class="w-full flex justify-start mt-4">
         <span class="tag text-13px">{{ feedback.category.name }}</span>
       </div>
-      <div class="flex sm:hidden justify-between px-8 mt-10">
+      <div
+        class="justify-between px-0 mt-6"
+        :class="width > rowLayoutMinCardSize ? 'hidden' : 'flex'">
         <span
           class="tag text-13px flex flex-col items-center justify-center h-14 w-40px px-0">
           <img
@@ -49,7 +59,8 @@ defineProps<{ feedback: FeedbackDto }>()
       </div>
     </div>
     <div
-      class="hidden sm:flex sm:flex-none w-2/10 flex-col items-center justify-center">
+      class="w-2/10 flex-col items-center justify-center"
+      :class="width > 775 ? 'flex' : 'hidden'">
       <span
         class="text-13px flex flex-row items-center justify-center h-14 w-40px px-0 cursor-pointer">
         <img

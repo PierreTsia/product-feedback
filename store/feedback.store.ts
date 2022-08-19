@@ -3,10 +3,7 @@ import { defineStore, storeToRefs } from 'pinia'
 import { useComments } from '~/composables/comments'
 import type { FeedbackDto } from '~/composables/feedbacks'
 import { useFeedbacks } from '~/composables/feedbacks'
-import type {
-  FeedbackCategory,
-  StatusesCount,
-} from '~/composables/types'
+import type { FeedbackCategory, StatusesCount } from '~/composables/types'
 import { OrderBy, OrderDirection } from '~/composables/types'
 import { useFilterStore } from '~/store/filters.store'
 import { useUserStore } from '~/store/user.store'
@@ -35,6 +32,10 @@ export const useFeedbackStore = defineStore('feedbacks', () => {
   const activeFeedback: Ref<FeedbackDto | null> = ref(null)
   const categories: Ref<FeedbackCategory[]> = ref([])
   const statusesCount: Ref<StatusesCount[]> = ref([])
+
+  const feedBackByStatusId = (statusId: number) => {
+    return feedbacks.value.filter((feedback) => feedback.status.id === statusId)
+  }
 
   const fetchAllFeedbacks = async () => {
     isLoading.value = true
@@ -157,6 +158,7 @@ export const useFeedbackStore = defineStore('feedbacks', () => {
     statusesCount,
     fetchAllFeedbacks,
     fetchAllCategories,
+    feedBackByStatusId,
     countFeedbacksByStatuses,
     fetchFeedbackById,
     addFeedback,

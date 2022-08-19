@@ -5,7 +5,7 @@ export interface FeedbackDto {
   title: string
   category: { name: string; id: number }
   upvotes: number
-  status: string
+  status: { name: string; id: number }
   description: string
   comments?: any[]
   comments_count?: number
