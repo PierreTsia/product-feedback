@@ -23,7 +23,7 @@ const onSubmit = async () => {
     <h1 class="text-md font-bold text-yankee-blue text-left mb-4">
       Add a comment
     </h1>
-    <TextAreaInput
+    <BaseInputTextArea
       :model-value="draftComment"
       @update:model-value="updateComment" />
     <div class="w-full flex justify-end mt-4">

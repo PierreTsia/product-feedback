@@ -36,16 +36,16 @@ const toggleReply = () => {
       <p class="text-dark-blue-gray text-md text-left">
         {{ comment.content }}
       </p>
-      <Expander :open="isReplying" class="w-full">
+      <BaseExpander :open="isReplying" class="w-full">
         <div class="mt-8 w-full flex flex-col md:flex-row items-start">
-          <TextAreaInput
+          <BaseInputTextArea
             :model-value="replyText"
             class="mb-4 md:mb-0 w-full md:w-8/12" />
           <div class="w-full md:w-4/12 flex justify-center">
             <button class="btn btn-primary h-60px">Post Reply</button>
           </div>
         </div>
-      </Expander>
+      </BaseExpander>
     </div>
   </div>
 </template>

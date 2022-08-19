@@ -24,14 +24,14 @@ onMounted(() => {
     <ul class="w-full flex flex-col">
       <li
         v-for="status in statusesCount"
-        :key="status.status_id"
+        :key="status.id"
         class="w-full flex justify-between items-center">
-        <BaseStatusPill :color="status.status_color" />
+        <BaseStatusPill :color="status.color" />
         <span class="text-left w-full text-dark-blue-gray">{{
-          status.status_name
+          status.name
         }}</span>
         <span class="text-left text-dark-blue-gray text-md font-bold">{{
-          status.status_count
+          status.feedbacks_count
         }}</span>
       </li>
     </ul>

@@ -5,7 +5,10 @@ withDefaults(defineProps<{ isOpen: boolean }>(), {
   isOpen: false,
 })
 
-const { toggleDrawer } = useAppStore()
+const { toggleDrawer, closeDrawer } = useAppStore()
+onUnmounted(() => {
+  closeDrawer()
+})
 </script>
 
 <template>

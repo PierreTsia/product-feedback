@@ -47,7 +47,7 @@ const setSelectedSortOption = (
 
     <span class="ml-0 w-50px md:ml-4"> Sort By:</span>
 
-    <DropDown>
+    <BaseDropDown :offset="[0, 10]">
       <template #activator="{ activatorProps }">
         <div
           class="w-170px center-between appearance-none rounded py-3 px-3 leading-tight focus:outline-none focus:shadow-outline mr-2 w-full text-white"
@@ -78,7 +78,7 @@ const setSelectedSortOption = (
           </ul>
         </div>
       </template>
-    </DropDown>
+    </BaseDropDown>
 
     <BaseAddFeedbackButton />
   </aside>

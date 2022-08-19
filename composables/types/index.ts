@@ -1,7 +1,7 @@
 import type { Ref } from '@vue/reactivity'
 
 export type InputType = 'text' | 'select' | 'textarea'
-export type FormKey = 'title' | 'description' | 'category'
+export type FormKey = 'title' | 'description' | 'category' | 'status'
 
 export interface ValidationFn {
   (value: any, args?: any): boolean | string
@@ -18,15 +18,18 @@ export interface Field {
 
 export type FieldErrors = Map<FormKey, string | null>
 
-export interface CreateFeedbackForm {
+export interface FeedbackFormType {
   title: string
   description: string
   category: FeedbackCategory
+  status?: any
 }
 
+
+
 export interface FeedbackComposition {
-  createFields: Ref<Field[]>
-  form: Ref<CreateFeedbackForm>
+  allFormFields: Ref<Field[]>
+  form: Ref<FeedbackFormType>
   setFormField: (s: FormKey, v: string | FeedbackCategory) => void
   resetForm: () => void
   errors: Ref<FieldErrors>
@@ -63,9 +66,11 @@ export interface FeedbackCategory {
 }
 
 export interface StatusesCount {
-  status_id: number
-  status_name: string
-  status_color: string
-  status_count: number
-  status_description: string
+  id: number
+  name: string
+  color: string
+  feedbacks_count: number
+  description: string
 }
+
+

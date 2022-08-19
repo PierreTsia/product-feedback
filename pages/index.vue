@@ -33,8 +33,9 @@ watch(
 
 <template>
   <div>
-    <div class="flex flex-col lg:flex-row gap-2 max-w-1200px mx-auto">
-      <div class="hidden md:flex flex-row lg:flex-col gap-2 w-full lg:w-4/12">
+    <div class="flex flex-col lg:flex-row gap-6 max-w-1200px mx-auto">
+      <div
+        class="hidden md:flex flex-row lg:flex-col gap-y-6 gap-x-4 w-full lg:w-4/12">
         <BaseHeader class="w-4/12 lg:w-full" />
         <CategoriesList class="w-4/12 lg:w-full" />
         <RoadmapSummary class="w-4/12 lg:w-full" />

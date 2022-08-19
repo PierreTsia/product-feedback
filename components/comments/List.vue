@@ -7,10 +7,10 @@ defineProps<{ comments: Comment[] }>()
 <template>
   <div class="bg-white rounded-lg flex flex-col py-3 px-8">
     <h1 class="text-xl font-bold text-yankee-blue text-left">
-      {{ comments.length }} Comments
+      {{ comments?.length }} Comments
     </h1>
 
-    <CommentCard
+    <CommentsCard
       v-for="(comment, i) in comments"
       :key="i"
       :comment="comment"

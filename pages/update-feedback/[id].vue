@@ -1,6 +1,11 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
 import { useFeedbackStore } from '~/store/feedback.store'
+
+definePageMeta({
+  layout: 'feedback',
+})
+
 const feedbackStore = useFeedbackStore()
 
 const { activeFeedback, isLoading } = storeToRefs(feedbackStore)
@@ -17,8 +22,7 @@ onMounted(() => {
 
 <template>
   <div v-if="isLoading">Loading...</div>
-  <FeedbackForm
-    v-else-if="activeFeedback"
-    :feedback="activeFeedback"
-    class="mt-12" />
+  <div v-else-if="activeFeedback" class="max-w-1200px mx-auto">
+    <FeedbackForm :feedback="activeFeedback" class="mt-12 mx-auto" />
+  </div>
 </template>

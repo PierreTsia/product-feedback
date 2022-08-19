@@ -1,7 +1,9 @@
 <script lang="ts" setup>
+import type { FeedbackCategory, StatusesCount } from '~/composables/types'
+
 interface SelectInputProps {
   options: { id: number; name: string }[]
-  modelValue: { id: number; name: string } | null
+  modelValue: FeedbackCategory | StatusesCount | null
 }
 const props = defineProps<SelectInputProps>()
 const emit = defineEmits<{
@@ -34,7 +36,7 @@ watch(selectedOption, (option) => {
 </script>
 
 <template>
-  <DropDown class="h-10">
+  <BaseDropDown class="h-10">
     <template #activator="{ activatorProps }">
       <div
         class="w-250px center-between appearance-none bg-ghost-white rounded py-2 px-3 mb-3 leading-tight focus:outline-none focus:shadow-outline mr-2 w-full"
@@ -65,5 +67,5 @@ watch(selectedOption, (option) => {
         </ul>
       </div>
     </template>
-  </DropDown>
+  </BaseDropDown>
 </template>

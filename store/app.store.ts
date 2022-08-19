@@ -7,8 +7,13 @@ export const useAppStore = defineStore('app', () => {
     isDrawerOpen.value = !isDrawerOpen.value
   }
 
+  const closeDrawer = () => {
+    isDrawerOpen.value = false
+  }
+
   return {
     isDrawerOpen,
     toggleDrawer,
+    closeDrawer,
   }
 })

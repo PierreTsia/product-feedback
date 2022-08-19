@@ -2,7 +2,7 @@
 import { onClickOutside } from '@vueuse/core'
 import { createPopper } from '@popperjs/core'
 const props = withDefaults(defineProps<{ offset?: [number, number] }>(), {
-  offset: () => [0, 15],
+  offset: () => [0, 0],
 })
 
 const dropdownRef = ref({} as HTMLElement)

@@ -59,7 +59,7 @@ const minNameInputRule = (arg: string) => hasMinLength(arg, 5)
       </div>
     </div>
     <div class="w-10/10 inline-flex justify-center my-2 mt-14">
-      <DropDown>
+      <BaseDropDown>
         <template #activator="{ activatorProps }">
           <div
             class="w-250px center-between appearance-none bg-ghost-white rounded py-2 px-3 mb-3 leading-tight focus:outline-none focus:shadow-outline mr-2 w-full"
@@ -90,7 +90,7 @@ const minNameInputRule = (arg: string) => hasMinLength(arg, 5)
             </ul>
           </div>
         </template>
-      </DropDown>
+      </BaseDropDown>
     </div>
   </div>
 </template>

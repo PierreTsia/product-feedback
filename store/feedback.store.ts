@@ -68,7 +68,10 @@ export const useFeedbackStore = defineStore('feedbacks', () => {
     isLoading.value = true
 
     try {
-      const newFeedback = await createNewFeedback(feedback)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { category, status, ...rest } = feedback
+      const payload = { ...rest, category: category.id }
+      const newFeedback = await createNewFeedback(payload)
       isLoading.value = false
       if (newFeedback) {
         feedbacks.value.push(newFeedback)
@@ -90,8 +93,8 @@ export const useFeedbackStore = defineStore('feedbacks', () => {
     isLoading.value = true
 
     try {
-      const { category, ...rest } = feedback
-      const payload = { ...rest, category: category.id }
+      const { category, status, ...rest } = feedback
+      const payload = { ...rest, category: category.id, status: status.id }
       const updatedFeedback = await updateFeedbackById(feedbackId, payload)
       if (updatedFeedback) {
         const replacedIndex = feedbacks.value.findIndex(

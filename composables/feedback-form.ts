@@ -2,29 +2,29 @@ import type { Ref } from '@vue/reactivity'
 
 import { useInputRules } from '~/composables/inputValidation'
 import type {
-  CreateFeedbackForm,
   FeedbackCategory,
   FeedbackComposition,
+  FeedbackFormType,
   Field,
   FieldErrors,
   FormKey,
   InputType,
 } from '~/composables/types'
 import { useFeedbackStore } from '~/store/feedback.store'
-
 export const useFeedbackForm = (): FeedbackComposition => {
+
   const feedbackStore = useFeedbackStore()
 
   const { hasMinLength, hasMaxLength } = useInputRules()
 
-  const form: Ref<CreateFeedbackForm> = ref({
+  const form: Ref<FeedbackFormType> = ref({
     title: '',
     category: { name: 'Select a category', id: 0 },
+    status: { name: 'Select a status', id: 0 },
     description: '',
   })
 
   const setFormField = (slug: FormKey, value: string | FeedbackCategory) => {
-    // @ts-expect-error type is correct
     form.value[slug] = value
   }
 
@@ -32,6 +32,7 @@ export const useFeedbackForm = (): FeedbackComposition => {
     form.value = {
       title: '',
       category: { name: '', id: 0 },
+      status: { name: '', id: 0 },
       description: '',
     }
   }
@@ -70,7 +71,7 @@ export const useFeedbackForm = (): FeedbackComposition => {
     }
   }
 
-  const createFields: Ref<Field[]> = ref([
+  const allFormFields: Ref<Field[]> = ref([
     {
       title: 'Feedback title',
       slug: 'title' as FormKey,
@@ -89,6 +90,13 @@ export const useFeedbackForm = (): FeedbackComposition => {
       rules: [],
     },
     {
+      title: 'Update Status',
+      slug: 'status' as FormKey,
+      description: 'Change feature status',
+      type: 'select' as InputType,
+      rules: [],
+    },
+    {
       title: 'Details',
       slug: 'description' as FormKey,
       description:
@@ -98,9 +106,9 @@ export const useFeedbackForm = (): FeedbackComposition => {
     },
   ])
 
-  const validateFormFields = (newForm: CreateFeedbackForm) => {
+  const validateFormFields = (newForm: FeedbackFormType) => {
     return Object.keys(newForm).forEach((k) => {
-      const field = createFields.value.find((f) => f.slug === k)
+      const field = allFormFields.value.find((f) => f.slug === k)
 
       if (field) {
         const errorsMessages = field.rules
@@ -121,7 +129,7 @@ export const useFeedbackForm = (): FeedbackComposition => {
   )
 
   return {
-    createFields,
+    allFormFields,
     form,
     setFormField,
     errors,

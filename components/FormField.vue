@@ -1,29 +1,48 @@
 <script lang="ts" setup>
-import type { FeedbackCategory, FormKey, InputType } from '~/composables/types'
+import type { ComputedRef } from '@vue/reactivity'
+import type {
+  FeedbackCategory,
+  FormKey,
+  InputType,
+  StatusesCount,
+} from '~/composables/types'
 
-const props = withDefaults(defineProps<FormFieldProps>(), {
-  title: 'Feedback title',
-  description: 'Add a short, descriptive headline',
-  value: '',
-  type: 'text',
-  slug: 'title' as FormKey,
-})
+const props = defineProps<FormFieldProps>()
 defineEmits<{
   (e: 'onChange', val: string | number, slug: FormKey): void
 }>()
 interface FormFieldProps {
   title: string
   description: string
-  value: string | FeedbackCategory
+  value: string | FeedbackCategory | StatusesCount
   slug: FormKey
   type?: InputType
-  options?: FeedbackCategory[]
+  categories?: FeedbackCategory[]
+  statuses?: StatusesCount[]
   error?: string | null
 }
 
-const selectModelValue = computed(() => {
-  return props?.options?.find((o: FeedbackCategory) => o.id === props.value?.id )
+const categoryModelValue = computed(() => {
+  return props?.categories?.find(
+    (o: FeedbackCategory) =>
+      typeof props.value !== 'string' && o.id === props.value?.id
+  ) as FeedbackCategory
 })
+
+const statusModelValue = computed(() => {
+  return props?.statuses?.find(
+    (o: StatusesCount) =>
+      typeof props.value !== 'string' && o.id === props.value?.id
+  ) as StatusesCount
+})
+
+const modelValue: ComputedRef<FeedbackCategory | StatusesCount> = computed(
+  () => {
+    return props?.slug === 'category'
+      ? categoryModelValue.value
+      : statusModelValue.value
+  }
+)
 </script>
 
 <template>
@@ -32,20 +51,20 @@ const selectModelValue = computed(() => {
     <h6 class="font-thin text-xs text-left text-secondary mb-2">
       {{ description }}
     </h6>
-    <TextInput
+    <BaseInputText
       v-if="type === 'text'"
       :model-value="value"
       :error-message="error"
       @update:model-value="(v) => $emit('onChange', v, slug)" />
-    <TextAreaInput
+    <BaseInputTextArea
       v-else-if="type === 'textarea'"
       :model-value="value"
       :error-message="error"
       @update:model-value="(v) => $emit('onChange', v, slug)" />
-    <SelectInput
+    <BaseInputSelect
       v-else-if="type === 'select'"
-      :options="options"
-      :model-value="selectModelValue"
+      :options="slug === 'category' ? categories : statuses"
+      :model-value="modelValue"
       @on-select-option="(o) => $emit('onChange', o, slug)" />
   </section>
 </template>

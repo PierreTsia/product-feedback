@@ -5,7 +5,7 @@ definePageMeta({
 </script>
 
 <template>
-  <div>
+  <div class="max-w-1200px mx-auto">
     <FeedbackForm />
   </div>
 </template>
