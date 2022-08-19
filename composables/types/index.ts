@@ -25,8 +25,6 @@ export interface FeedbackFormType {
   status?: any
 }
 
-
-
 export interface FeedbackComposition {
   allFormFields: Ref<Field[]>
   form: Ref<FeedbackFormType>
@@ -41,6 +39,7 @@ export interface Comment {
   id: number
   content: string
   user: User
+  comment_replies?: Comment[]
 }
 
 export interface User {
@@ -72,5 +71,3 @@ export interface StatusesCount {
   feedbacks_count: number
   description: string
 }
-
-

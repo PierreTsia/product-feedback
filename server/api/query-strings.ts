@@ -1,23 +1,25 @@
 export const userQueryString = `
-        user (
           id, 
           username,
           name,
-          image
-         )
-         `
+          image`
 
+export const commentReplyString = `
+          id,
+          content,
+          user (
+            ${userQueryString}
+          )
+`
 export const commentQueryString = `
-      comments (
         id, 
         content,
         comment_replies (
-          id,
-          content,
-          ${userQueryString}
+          ${commentReplyString}
         ), 
+        user (
          ${userQueryString}
-       )`
+        )`
 
 export const feedbackQueryString = `
       id, 
@@ -32,7 +34,8 @@ export const feedbackQueryString = `
         id,
         name
       ), 
-       ${commentQueryString}
-
+      comments (
+        ${commentQueryString}
+      )
      
       `

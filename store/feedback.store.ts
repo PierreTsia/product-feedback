@@ -18,7 +18,7 @@ const {
   deleteFeedbackById,
 } = useFeedbacks()
 
-const { postNewComment } = useComments()
+const { postNewComment, replyToComment } = useComments()
 
 export const useFeedbackStore = defineStore('feedbacks', () => {
   const router = useRouter()
@@ -155,6 +155,48 @@ export const useFeedbackStore = defineStore('feedbacks', () => {
     }
   }
 
+  const addReplyToComment = async ({
+    content,
+    commentId,
+  }: {
+    content: string
+    commentId: number
+  }) => {
+    if (!currentUser.value?.id) {
+      return
+    }
+
+    try {
+      const reply = await replyToComment({
+        content,
+        commentId,
+        userId: currentUser.value.id,
+      })
+      if (!activeFeedback.value) {
+        return
+      } else {
+        const commentIndex: number =
+          activeFeedback.value?.comments?.findIndex(
+            (c) => c.id === commentId
+          ) ?? 0
+
+        if (
+          activeFeedback.value?.comments?.[commentIndex]?.comment_replies
+            ?.length
+        ) {
+          activeFeedback.value.comments[commentIndex].comment_replies.push(
+            reply
+          )
+        } else {
+          // @ts-expect-error Needs to fix this
+          activeFeedback.value.comments[commentIndex].comment_replies = [reply]
+        }
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return {
     feedbacks,
     categories,
@@ -168,6 +210,7 @@ export const useFeedbackStore = defineStore('feedbacks', () => {
     updateFeedback,
     deleteFeedback,
     addCommentToFeedback,
+    addReplyToComment,
     isLoading,
     activeFeedback,
   }
