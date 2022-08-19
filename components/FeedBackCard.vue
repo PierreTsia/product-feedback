@@ -7,7 +7,7 @@ defineProps<{ feedback: FeedbackDto }>()
 const el = ref(null)
 const { width } = useElementSize(el)
 
-const rowLayoutMinCardSize = 775
+const rowLayoutMinCardSize = 700
 </script>
 
 <template>
@@ -60,7 +60,7 @@ const rowLayoutMinCardSize = 775
     </div>
     <div
       class="w-2/10 flex-col items-center justify-center"
-      :class="width > 775 ? 'flex' : 'hidden'">
+      :class="width > rowLayoutMinCardSize ? 'flex' : 'hidden'">
       <span
         class="text-13px flex flex-row items-center justify-center h-14 w-40px px-0 cursor-pointer">
         <img
