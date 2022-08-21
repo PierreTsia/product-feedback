@@ -1,17 +1,19 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
+import { useCategoriesStore } from '~/store/categories.store'
 import { useFeedbackStore } from '~/store/feedback.store'
 import { useFilterStore } from '~/store/filters.store'
 
 const feedbackStore = useFeedbackStore()
 const filterStore = useFilterStore()
+const categoriesStore = useCategoriesStore()
 
 const { areAllSelected, activeFilters } = storeToRefs(filterStore)
 
 const isActive = (categoryId: number) =>
   activeFilters.value?.includes(categoryId)
 
-const { categories } = storeToRefs(feedbackStore)
+const { categories } = storeToRefs(categoriesStore)
 
 const handleTagClick = (categoryId: number) => {
   if (isActive(categoryId)) {

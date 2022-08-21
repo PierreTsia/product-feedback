@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
+import { useCategoriesStore } from '~/store/categories.store'
 import { useFeedbackStore } from '~/store/feedback.store'
 
 definePageMeta({
@@ -7,15 +8,16 @@ definePageMeta({
 })
 
 const feedbackStore = useFeedbackStore()
+const categoriesStore = useCategoriesStore()
 
 const { activeFeedback, isLoading } = storeToRefs(feedbackStore)
 
 const route = useRoute()
 
 onMounted(() => {
-  feedbackStore.fetchAllCategories()
+  categoriesStore.fetchAllCategories()
   if (!activeFeedback.value || activeFeedback.value?.id !== +route.params.id) {
-    feedbackStore.fetchFeedbackById(`${route.params.id}`)
+    feedbackStore.fetchFeedbackById(+route.params.id)
   }
 })
 </script>

@@ -3,6 +3,7 @@ import { storeToRefs } from 'pinia'
 import { useFeedbackForm } from '~/composables/feedback-form'
 import type { FeedbackDto } from '~/composables/feedbacks'
 import { useFeedbackStore } from '~/store/feedback.store'
+import { useStatusesStore } from '~/store/statuses.store'
 
 const props = withDefaults(defineProps<{ feedback?: FeedbackDto | null }>(), {
   feedback: null,
@@ -47,6 +48,7 @@ const onCancelClick = () => {
 }
 
 const feedbackStore = useFeedbackStore()
+const statusesStore = useStatusesStore()
 const onConfirmClick = () => {
   submitForm(props.feedback?.id)
 }
@@ -56,7 +58,8 @@ const onDeleteClick = async () => {
   }
   await feedbackStore.deleteFeedback(props.feedback?.id)
 }
-const { isLoading, categories, statusesCount } = storeToRefs(feedbackStore)
+const { isLoading } = storeToRefs(feedbackStore)
+const { statusesCount } = storeToRefs(statusesStore)
 
 watch(
   () => props.feedback,

@@ -2,15 +2,18 @@
 import { storeToRefs } from 'pinia'
 import { useAppStore } from '~/store/app.store'
 import { useFeedbackStore } from '~/store/feedback.store'
+import { useCategoriesStore } from '~/store/categories.store'
 import { useFilterStore } from '~/store/filters.store'
 
 const feedbackStore = useFeedbackStore()
+const categoriesStore = useCategoriesStore()
 const filtersStore = useFilterStore()
 const appStore = useAppStore()
 
 const { isDrawerOpen } = storeToRefs(appStore)
 const { activeFilters } = storeToRefs(filtersStore)
-const { feedbacks, isLoading, categories } = storeToRefs(feedbackStore)
+const { feedbacks, isLoading } = storeToRefs(feedbackStore)
+const { categories } = storeToRefs(categoriesStore)
 
 onMounted(async () => {
   if (feedbacks.value.length <= 1) {
@@ -18,7 +21,7 @@ onMounted(async () => {
   }
 
   if (!categories.value.length) {
-    await feedbackStore.fetchAllCategories()
+    await categoriesStore.fetchAllCategories()
   }
 })
 

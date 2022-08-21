@@ -1,15 +1,17 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
 import { useFeedbackStore } from '~/store/feedback.store'
+import { useStatusesStore } from '~/store/statuses.store'
 
 const feedbackStore = useFeedbackStore()
-const { feedBackByStatusId } = feedbackStore
+const statusesStore = useStatusesStore()
 
-const { statusesCount, feedbacks } = storeToRefs(feedbackStore)
+const { feedbacks, feedBacksByStatusId } = storeToRefs(feedbackStore)
+const { statusesCount } = storeToRefs(statusesStore)
 
 onMounted(() => {
   if (!statusesCount.value?.length) {
-    feedbackStore.countFeedbacksByStatuses()
+    statusesStore.countFeedbacksByStatuses()
   }
 })
 </script>
@@ -31,7 +33,7 @@ onMounted(() => {
 
       <div v-if="feedbacks.length" class="flex flex-col gap-2 gap-y-6">
         <FeedBackCard
-          v-for="f in feedBackByStatusId(s.id)"
+          v-for="f in feedBacksByStatusId(s.id)"
           :key="f.id"
           :feedback="f"
           class="border-t border-t-8"

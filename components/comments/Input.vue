@@ -1,16 +1,19 @@
 <script lang="ts" setup>
 import type { Ref } from 'vue'
+import { useCommentsStore } from '~/store/comments.store'
 import { useFeedbackStore } from '~/store/feedback.store'
 const draftComment: Ref<string> = ref('')
 const feedbackStore = useFeedbackStore()
+const commentsStore = useCommentsStore()
+
 const route = useRoute()
 
 const updateComment = (content: string) => {
   draftComment.value = content
 }
 
-const onSubmit = async () => {
-  feedbackStore.addCommentToFeedback({
+const onSubmit = () => {
+  commentsStore.addCommentToFeedback({
     content: draftComment.value,
     feedbackId: +route.params.id,
   })

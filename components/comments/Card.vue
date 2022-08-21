@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { Ref } from 'vue'
 import type { Comment } from '~/composables/types'
+import { useCommentsStore } from '~/store/comments.store'
 import { useFeedbackStore } from '~/store/feedback.store'
 
 const props = withDefaults(
@@ -11,6 +12,7 @@ const props = withDefaults(
 )
 
 const feedbackStore = useFeedbackStore()
+const commentsStore = useCommentsStore()
 
 const isReplying: Ref<boolean> = ref(false)
 const replyText: Ref<string> = ref('')
@@ -24,7 +26,7 @@ const toggleReply = () => {
 }
 
 const postCommentReply = () => {
-  feedbackStore.addReplyToComment({
+  commentsStore.addReplyToComment({
     content: replyText.value,
     commentId: props.comment.id,
   })

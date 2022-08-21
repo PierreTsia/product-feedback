@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
-import { useFeedbackStore } from '~/store/feedback.store'
+import { useStatusesStore } from '~/store/statuses.store'
 
-const feedbackStore = useFeedbackStore()
+const statusesStore = useStatusesStore()
 
-const { statusesCount } = storeToRefs(feedbackStore)
+const { statusesCount } = storeToRefs(statusesStore)
 
 onMounted(() => {
-  feedbackStore.countFeedbacksByStatuses()
+  statusesStore.countFeedbacksByStatuses()
 })
 </script>
 
