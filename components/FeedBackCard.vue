@@ -42,13 +42,17 @@ const handleUpvoteClick = () => {
         >
       </span>
     </div>
-    <div class="grow px-4" @click="$router.push(`/feedback/${feedback.id}`)">
-      <h1 class="font-bold text-18px text-yankee-blue text-left">
-        {{ feedback.title }}
-      </h1>
-      <h6 class="font-light text-16px text-dark-blue-gray text-left">
-        {{ feedback.description }}
-      </h6>
+    <div class="grow px-4">
+      <div
+        class="cursor-pointer"
+        @click="$router.push(`/feedback/${feedback.id}`)">
+        <h1 class="font-bold text-18px text-yankee-blue text-left">
+          {{ feedback.title }}
+        </h1>
+        <h6 class="font-light text-16px text-dark-blue-gray text-left">
+          {{ feedback.description }}
+        </h6>
+      </div>
       <div class="w-full flex justify-start mt-4">
         <span class="tag text-13px">{{ feedback.category.name }}</span>
       </div>

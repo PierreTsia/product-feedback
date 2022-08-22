@@ -15,6 +15,10 @@ export const feedbacksWithCounts = `
       id
     )
   ),
+  status (
+    id,
+    name
+  ), 
   comments (
     id, 
     content
