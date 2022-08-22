@@ -2,6 +2,7 @@
 import { storeToRefs } from 'pinia'
 import { useFeedbackForm } from '~/composables/feedback-form'
 import type { FeedbackDto } from '~/composables/feedbacks'
+import { useCategoriesStore } from '~/store/categories.store'
 import { useFeedbackStore } from '~/store/feedback.store'
 import { useStatusesStore } from '~/store/statuses.store'
 
@@ -24,6 +25,9 @@ const {
   resetForm,
   isValid,
 } = useFeedbackForm()
+
+const categoriesStore = useCategoriesStore()
+const { categories } = storeToRefs(categoriesStore)
 
 const activeFields = computed(() =>
   isEditMode.value

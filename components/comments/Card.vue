@@ -5,7 +5,7 @@ import { useCommentsStore } from '~/store/comments.store'
 import { useFeedbackStore } from '~/store/feedback.store'
 
 const props = withDefaults(
-  defineProps<{ comment: Comment; canReply: boolean }>(),
+  defineProps<{ comment: Comment; canReply?: boolean }>(),
   {
     canReply: true,
   }

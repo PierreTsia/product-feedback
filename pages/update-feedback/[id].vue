@@ -2,6 +2,7 @@
 import { storeToRefs } from 'pinia'
 import { useCategoriesStore } from '~/store/categories.store'
 import { useFeedbackStore } from '~/store/feedback.store'
+import { useStatusesStore } from '~/store/statuses.store'
 
 definePageMeta({
   layout: 'feedback',
@@ -9,6 +10,7 @@ definePageMeta({
 
 const feedbackStore = useFeedbackStore()
 const categoriesStore = useCategoriesStore()
+const statusesStore = useStatusesStore()
 
 const { activeFeedback, isLoading } = storeToRefs(feedbackStore)
 
@@ -19,6 +21,8 @@ onMounted(() => {
   if (!activeFeedback.value || activeFeedback.value?.id !== +route.params.id) {
     feedbackStore.fetchFeedbackById(+route.params.id)
   }
+
+  statusesStore.countFeedbacksByStatuses()
 })
 </script>
 

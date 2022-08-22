@@ -2,13 +2,16 @@
 import { storeToRefs } from 'pinia'
 import CommentInput from '~/components/comments/Input.vue'
 import { useFeedbackStore } from '~/store/feedback.store'
+import { useStatusesStore } from '~/store/statuses.store'
 
 const feedbackStore = useFeedbackStore()
+const statusesStore = useStatusesStore()
 const { activeFeedback, isLoading } = storeToRefs(feedbackStore)
 const route = useRoute()
 
-onMounted(async () => {
-  await feedbackStore.fetchFeedbackById(route.params.id as string)
+onMounted(() => {
+  feedbackStore.fetchFeedbackById(+route.params.id)
+  statusesStore.countFeedbacksByStatuses()
 })
 </script>
 

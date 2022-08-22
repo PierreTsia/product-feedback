@@ -14,7 +14,7 @@ defineEmits<{
 interface FormFieldProps {
   title: string
   description: string
-  value: string | FeedbackCategory | StatusesCount
+  value: any
   slug: FormKey
   type?: InputType
   categories?: FeedbackCategory[]
@@ -53,12 +53,12 @@ const modelValue: ComputedRef<FeedbackCategory | StatusesCount> = computed(
     </h6>
     <BaseInputText
       v-if="type === 'text'"
-      :model-value="value"
+      :model-value="typeof value === 'string' ? value : null"
       :error-message="error"
       @update:model-value="(v) => $emit('onChange', v, slug)" />
     <BaseInputTextArea
       v-else-if="type === 'textarea'"
-      :model-value="value"
+      :model-value="typeof value === 'string' ? value : null"
       :error-message="error"
       @update:model-value="(v) => $emit('onChange', v, slug)" />
     <BaseInputSelect
