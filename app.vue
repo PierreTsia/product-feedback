@@ -1,11 +1,14 @@
 <script setup lang="ts">
 useHead({
-  title: 'Vitesse Nuxt 3',
+  title: 'Product Feedback',
+  htmlAttrs: {
+    lang: 'en',
+  },
   link: [
     {
       rel: 'icon',
       type: 'image/png',
-      href: '/nuxt.png',
+      href: '/assets/favicon-32x32.png',
     },
   ],
 })
