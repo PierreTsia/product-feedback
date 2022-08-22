@@ -1,10 +1,11 @@
+import type { Upvote } from '~/composables/types';
 import { OrderBy, OrderDirection } from '~/composables/types'
 
 export interface FeedbackDto {
   id: number
   title: string
   category: { name: string; id: number }
-  upvotes: number
+  upvotes: Upvote[]
   status: { name: string; id: number }
   description: string
   comments?: any[]
@@ -68,7 +69,7 @@ export const useFeedbacks = () => {
 
   const getFeedbacks = async (
     orderParams: OrderParam = {
-      orderBy: OrderBy.CreatedAt,
+      orderBy: OrderBy.Comments,
       direction: OrderDirection.Desc,
     }
   ) => {

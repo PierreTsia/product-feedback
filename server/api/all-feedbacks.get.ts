@@ -1,16 +1,17 @@
+import uniqBy from 'lodash/uniqBy'
 import { OrderDirection } from '~/composables/types'
-import { feedbackQueryString } from '~/server/api/query-strings'
 import { supabase } from '~/server/db/supabase'
+import { feedbacksWithCounts } from '~/server/api/query-strings'
 
 export default defineEventHandler(async (event) => {
   const queryParams = useQuery(event)
-  const orderCriterion = (queryParams?.orderBy as string) ?? 'created_at'
-  const ascending = queryParams?.direction === OrderDirection.Asc
+  const orderCriterion = (queryParams?.orderBy as string) ?? 'comments_count'
+  const ascending = queryParams?.direction === OrderDirection.Desc
   const filters = queryParams?.filters ?? null
 
   let query = supabase
-    .from('feedbacks')
-    .select(feedbackQueryString, { count: 'exact' })
+    .from('feedbacks_with_comments_count')
+    .select(feedbacksWithCounts)
     .order(orderCriterion, { ascending })
 
   if (filters) {
@@ -21,7 +22,7 @@ export default defineEventHandler(async (event) => {
 
   return {
     count,
-    data,
+    data: uniqBy(data, 'id'),
     error,
   }
 })

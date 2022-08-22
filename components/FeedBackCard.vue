@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import { useElementSize } from '@vueuse/core'
+import { storeToRefs } from 'pinia'
 import type { FeedbackDto } from '~/composables/feedbacks'
+import { useFeedbackStore } from '~/store/feedback.store'
 
 defineProps<{ feedback: FeedbackDto }>()
+
+const feedbackStore = useFeedbackStore()
+const { hasAlreadyUpvoted } = storeToRefs(feedbackStore)
 
 const el = ref(null)
 const { width } = useElementSize(el)
@@ -16,12 +21,16 @@ const rowLayoutMinCardSize = 700
       class="w-2/10 items-start justify-center"
       :class="width > rowLayoutMinCardSize ? 'flex' : 'hidden'">
       <span
-        class="tag text-13px flex flex-col items-center justify-center h-14 w-40px px-0">
-        <img
-          class="w-3 inline-block mb-2"
-          src="/assets/shared/icon-arrow-up.svg"
-          alt="icon arrow down" />
-        <span class="text-yankee-blue"> {{ feedback.upvotes }}</span>
+        class="tag text-13px flex flex-col items-center justify-center h-14 w-40px px-0"
+        :class="{ 'tag-active': hasAlreadyUpvoted(feedback.id) }">
+        <IconsArrowUp
+          class="inline-block mb-2"
+          :color="hasAlreadyUpvoted(feedback.id) ? '#CFD7FF' : '#4661E6'" />
+        <span
+          class="text-yankee-blue"
+          :class="{ 'text-white': hasAlreadyUpvoted(feedback.id) }">
+          {{ feedback.upvotes.length }}</span
+        >
       </span>
     </div>
     <div class="grow px-4">
@@ -38,12 +47,17 @@ const rowLayoutMinCardSize = 700
         class="justify-between px-0 mt-6"
         :class="width > rowLayoutMinCardSize ? 'hidden' : 'flex'">
         <span
-          class="tag text-13px flex flex-col items-center justify-center h-14 w-40px px-0">
-          <img
+          class="tag text-13px flex flex-col items-center justify-center h-14 w-40px px-0"
+          :class="{ 'tag-active': hasAlreadyUpvoted(feedback.id) }">
+          <IconsArrowUp
             class="w-3 inline-block"
-            src="/assets/shared/icon-arrow-up.svg"
-            alt="icon arrow down" />
-          <span class="text-yankee-blue mt-2"> {{ feedback.upvotes }}</span>
+            :color="hasAlreadyUpvoted(feedback.id) ? '#CFD7FF' : '#4661E6'" />
+
+          <span
+            class="text-yankee-blue mt-2"
+            :class="{ 'text-white': hasAlreadyUpvoted(feedback.id) }">
+            {{ feedback.upvotes.length }}</span
+          >
         </span>
 
         <span

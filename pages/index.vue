@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
+import type { OrderBy, OrderDirection } from '~/composables/types'
 import { useAppStore } from '~/store/app.store'
 import { useFeedbackStore } from '~/store/feedback.store'
 import { useCategoriesStore } from '~/store/categories.store'
@@ -11,7 +12,7 @@ const filtersStore = useFilterStore()
 const appStore = useAppStore()
 
 const { isDrawerOpen } = storeToRefs(appStore)
-const { activeFilters } = storeToRefs(filtersStore)
+const { activeFilters, orderBy, orderDirection } = storeToRefs(filtersStore)
 const { feedbacks, isLoading } = storeToRefs(feedbackStore)
 const { categories } = storeToRefs(categoriesStore)
 
@@ -25,8 +26,34 @@ onMounted(async () => {
   }
 })
 
+const handleSortChange = ({
+  slug,
+  direction,
+}: {
+  slug: OrderBy
+  direction: OrderDirection
+}) => {
+  filtersStore.setOrderBy(slug, direction)
+}
+
 watch(
   () => activeFilters.value,
+  () => {
+    feedbackStore.fetchAllFeedbacks()
+  },
+  { immediate: false, deep: true }
+)
+
+watch(
+  () => orderBy.value,
+  () => {
+    feedbackStore.fetchAllFeedbacks()
+  },
+  { immediate: false, deep: true }
+)
+
+watch(
+  () => orderDirection.value,
   () => {
     feedbackStore.fetchAllFeedbacks()
   },
@@ -46,7 +73,7 @@ watch(
       <div class="flex flex-col w-full lg:w-8/12">
         <MobileTopBar :is-open="isDrawerOpen" />
 
-        <TopBar class="mb-4" />
+        <TopBar class="mb-4" @on-sort-change="handleSortChange" />
         <div
           v-if="isLoading"
           class="flex flex-col justify-center h-200 op50 italic">

@@ -1,8 +1,8 @@
 import { defineStore, storeToRefs } from 'pinia'
 import type { FeedbackDto } from '~/composables/feedbacks'
 import { useFeedbacks } from '~/composables/feedbacks'
-import { OrderBy, OrderDirection } from '~/composables/types'
 import { useFilterStore } from '~/store/filters.store'
+import { useUserStore } from '~/store/user.store'
 
 const {
   getFeedbacks,
@@ -29,12 +29,14 @@ export const useFeedbackStore = defineStore('feedbacks', {
   actions: {
     async fetchAllFeedbacks() {
       const filtersStore = useFilterStore()
-      const { activeFilters } = storeToRefs(filtersStore)
+
+      const { activeFilters, orderBy, orderDirection } =
+        storeToRefs(filtersStore)
 
       this.isLoading = true
       this.feedbacks = await getFeedbacks({
-        orderBy: OrderBy.CreatedAt,
-        direction: OrderDirection.Asc,
+        orderBy: orderBy.value,
+        direction: orderDirection.value,
         filters: activeFilters.value,
       })
       this.isLoading = false
@@ -113,6 +115,17 @@ export const useFeedbackStore = defineStore('feedbacks', {
     feedBacksByStatusId(state: State) {
       return (statusId: number): FeedbackDto[] => {
         return state.feedbacks.filter((f) => f.status.id === statusId)
+      }
+    },
+    hasAlreadyUpvoted(state: State) {
+      const usersStore = useUserStore()
+      const { currentUser } = storeToRefs(usersStore)
+      return (feedbackId: number): boolean => {
+        const feedback = state.feedbacks.find((f) => f.id === feedbackId)
+        if (!feedback || !currentUser.value) {
+          return false
+        }
+        return feedback.upvotes.some((u) => u.id === currentUser.value?.id)
       }
     },
   },

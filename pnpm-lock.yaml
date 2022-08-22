@@ -9,10 +9,12 @@ specifiers:
   '@pinia/nuxt': ^0.1.9
   '@popperjs/core': ^2.11.5
   '@supabase/supabase-js': ^1.35.4
+  '@types/lodash': ^4.14.184
   '@unocss/nuxt': ^0.43.2
   '@vueuse/nuxt': ^8.8.0
   eslint: ^8.19.0
   eslint-config-prettier: ^8.5.0
+  lodash: ^4.17.21
   nuxt: ^3.0.0-rc.4
   ohmyfetch: ^0.4.18
   pinia: ^2.0.14
@@ -23,6 +25,7 @@ dependencies:
   '@fontsource/jost': 4.5.10
   '@popperjs/core': 2.11.5
   '@supabase/supabase-js': 1.35.4
+  lodash: 4.17.21
   ohmyfetch: 0.4.18
   prettier: 2.7.1
 
@@ -32,6 +35,7 @@ devDependencies:
   '@iconify-json/twemoji': 1.1.5
   '@nuxtjs/color-mode': 3.1.4
   '@pinia/nuxt': 0.1.9_pinia@2.0.14
+  '@types/lodash': 4.14.184
   '@unocss/nuxt': 0.43.2
   '@vueuse/nuxt': 8.8.0
   eslint: 8.19.0
@@ -1051,6 +1055,10 @@ packages:
 
   /@types/json5/0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
+    dev: true
+
+  /@types/lodash/4.14.184:
+    resolution: {integrity: sha512-RoZphVtHbxPZizt4IcILciSWiC6dcn+eZ8oX9IWEYfDMcocdd42f7NPI6fQj+6zI8y4E0L7gu2pcZKLGTRaV9Q==}
     dev: true
 
   /@types/mdast/3.0.10:
@@ -4335,7 +4343,6 @@ packages:
 
   /lodash/4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
-    dev: true
 
   /log-symbols/4.1.0:
     resolution: {integrity: sha512-8XPvpAA8uyhfteu8pIvQxpJZ7SYYdpUivZpGy6sFsBuKRY/7rQGavedeB8aK+Zkyq6upMFVL/9AW6vOYzfRyLg==}

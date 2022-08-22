@@ -50,7 +50,8 @@ export interface User {
 }
 
 export enum OrderBy {
-  Upvotes = 'upvotes',
+  Upvotes = 'upvotes_count',
+  Comments = 'comments_count',
   CreatedAt = 'created_at',
 }
 
@@ -70,4 +71,9 @@ export interface StatusesCount {
   color: string
   feedbacks_count: number
   description: string
+}
+
+export interface Upvote {
+  id: number
+  user: { id: number }
 }

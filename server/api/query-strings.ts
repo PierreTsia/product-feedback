@@ -1,3 +1,25 @@
+export const feedbacksWithCounts = `
+  comments_count,
+  upvotes_count,
+  created_at,
+  title, 
+  id,
+  description,
+  category (
+    id,
+    name
+  ),
+  upvotes (
+    id,
+    user (
+      id
+    )
+  ),
+  comments (
+    id, 
+    content
+  )`
+
 export const userQueryString = `
           id, 
           username,
@@ -29,13 +51,19 @@ export const feedbackQueryString = `
         id,
         name
       ), 
-      upvotes,
+      upvotes_old,
       status (
         id,
         name
       ), 
       comments (
         ${commentQueryString}
+      ),
+      upvotes (
+        id,
+        user (
+          id
+        )
       )
      
       `

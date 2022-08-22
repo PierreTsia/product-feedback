@@ -1,12 +1,17 @@
 import { defineStore } from 'pinia'
+import { OrderBy, OrderDirection } from '~/composables/types'
 
 interface State {
   activeFilters: number[]
+  orderBy: OrderBy
+  orderDirection: OrderDirection
 }
 
 export const useFilterStore = defineStore('filters', {
   state: (): State => ({
     activeFilters: [],
+    orderBy: OrderBy.Upvotes,
+    orderDirection: OrderDirection.Asc,
   }),
   getters: {
     areAllSelected: (state: State): boolean => {
@@ -26,6 +31,10 @@ export const useFilterStore = defineStore('filters', {
 
     resetFilters() {
       this.activeFilters = []
+    },
+    setOrderBy(orderBy: OrderBy, orderDirection: OrderDirection) {
+      this.orderBy = orderBy
+      this.orderDirection = orderDirection
     },
   },
 })
