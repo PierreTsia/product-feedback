@@ -9,7 +9,6 @@ defineProps<{ feedbacks: FeedbackDto[] }>()
       v-for="(feedback, i) in feedbacks"
       :key="i"
       class="mb-8 w-full"
-      :feedback="feedback"
-      @click="$router.push(`/feedback/${feedback.id}`)" />
+      :feedback="feedback" />
   </ul>
 </template>

@@ -10,6 +10,8 @@ const {
   getFeedbackById,
   updateFeedbackById,
   deleteFeedbackById,
+  upvoteFeedback,
+  downvoteFeedback,
 } = useFeedbacks()
 
 interface State {
@@ -110,6 +112,56 @@ export const useFeedbackStore = defineStore('feedbacks', {
         this.isLoading = false
       }
     },
+    async upvoteFeedback(feedbackId: number) {
+      const userStore = useUserStore()
+      const { currentUser } = storeToRefs(userStore)
+      if (!currentUser.value) {
+        return
+      }
+      try {
+        const upvote = await upvoteFeedback(feedbackId, currentUser.value.id)
+        if (upvote) {
+          const feedback = this.feedbacks.find((f) => f.id === feedbackId)
+          const { user, id } = upvote
+          if (feedback) {
+            feedback.upvotes.push({ user: { id: user }, id })
+          }
+          if (this.activeFeedback?.id === feedbackId) {
+            this.activeFeedback.upvotes.push({ user: { id: user }, id })
+          }
+        }
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    async downvoteFeedback(feedbackId: number) {
+      const userStore = useUserStore()
+      const { currentUser } = storeToRefs(userStore)
+      if (!currentUser.value) {
+        return
+      }
+      try {
+        const downvote = await downvoteFeedback(
+          feedbackId,
+          currentUser.value.id
+        )
+        if (downvote) {
+          const feedback = this.feedbacks.find((f) => f.id === feedbackId)
+          if (feedback) {
+            feedback.upvotes = feedback.upvotes.filter(
+              (upvote) => upvote.user.id !== currentUser.value?.id
+            )
+          }
+          if (this.activeFeedback?.id === feedbackId) {
+            this.activeFeedback.upvotes = this.activeFeedback.upvotes.filter(
+              (upvote) => upvote.user.id !== currentUser.value?.id
+            )
+          }
+        }
+      } catch (error) {
+        console.error(error)
+      }
+    },
   },
   getters: {
     feedBacksByStatusId(state: State) {
@@ -125,7 +177,7 @@ export const useFeedbackStore = defineStore('feedbacks', {
         if (!feedback || !currentUser.value) {
           return false
         }
-        return feedback.upvotes.some((u) => u.id === currentUser.value?.id)
+        return feedback.upvotes.some((u) => u.user.id === currentUser.value?.id)
       }
     },
   },

@@ -1,4 +1,4 @@
-import type { Upvote } from '~/composables/types';
+import type { Upvote } from '~/composables/types'
 import { OrderBy, OrderDirection } from '~/composables/types'
 
 export interface FeedbackDto {
@@ -124,6 +124,34 @@ export const useFeedbacks = () => {
     }
   }
 
+  const upvoteFeedback = async (feedbackId: number, userId: number) => {
+    const { data, error } = await $fetch(`/api/upvote-feedback`, {
+      method: HttpVerbs.Post,
+      body: { feedback: feedbackId, user: userId },
+    })
+    if (error && error?.message) {
+      throw new Error(error.message)
+    }
+    if (data) {
+      const [upvote] = data
+      return upvote
+    }
+  }
+
+  const downvoteFeedback = async (feedbackId: number, userId: number) => {
+    const { data, error } = await $fetch(`/api/downvote-feedback`, {
+      method: HttpVerbs.Delete,
+      body: { feedback: feedbackId, user: userId },
+    })
+    if (error && error?.message) {
+      throw new Error(error.message)
+    }
+    if (data) {
+      const [downvote] = data
+      return downvote
+    }
+  }
+
   return {
     getFeedbacks,
     createNewFeedback,
@@ -132,5 +160,7 @@ export const useFeedbacks = () => {
     getStatusesCount,
     updateFeedbackById,
     deleteFeedbackById,
+    upvoteFeedback,
+    downvoteFeedback,
   }
 }

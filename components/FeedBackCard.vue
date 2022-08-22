@@ -4,7 +4,7 @@ import { storeToRefs } from 'pinia'
 import type { FeedbackDto } from '~/composables/feedbacks'
 import { useFeedbackStore } from '~/store/feedback.store'
 
-defineProps<{ feedback: FeedbackDto }>()
+const props = defineProps<{ feedback: FeedbackDto }>()
 
 const feedbackStore = useFeedbackStore()
 const { hasAlreadyUpvoted } = storeToRefs(feedbackStore)
@@ -13,6 +13,14 @@ const el = ref(null)
 const { width } = useElementSize(el)
 
 const rowLayoutMinCardSize = 700
+
+const handleUpvoteClick = () => {
+  if (hasAlreadyUpvoted.value(props.feedback.id)) {
+    feedbackStore.downvoteFeedback(props.feedback.id)
+  } else {
+    feedbackStore.upvoteFeedback(props.feedback.id)
+  }
+}
 </script>
 
 <template>
@@ -22,7 +30,8 @@ const rowLayoutMinCardSize = 700
       :class="width > rowLayoutMinCardSize ? 'flex' : 'hidden'">
       <span
         class="tag text-13px flex flex-col items-center justify-center h-14 w-40px px-0"
-        :class="{ 'tag-active': hasAlreadyUpvoted(feedback.id) }">
+        :class="{ 'tag-active': hasAlreadyUpvoted(feedback.id) }"
+        @click="handleUpvoteClick">
         <IconsArrowUp
           class="inline-block mb-2"
           :color="hasAlreadyUpvoted(feedback.id) ? '#CFD7FF' : '#4661E6'" />
@@ -33,7 +42,7 @@ const rowLayoutMinCardSize = 700
         >
       </span>
     </div>
-    <div class="grow px-4">
+    <div class="grow px-4" @click="$router.push(`/feedback/${feedback.id}`)">
       <h1 class="font-bold text-18px text-yankee-blue text-left">
         {{ feedback.title }}
       </h1>
@@ -48,7 +57,8 @@ const rowLayoutMinCardSize = 700
         :class="width > rowLayoutMinCardSize ? 'hidden' : 'flex'">
         <span
           class="tag text-13px flex flex-col items-center justify-center h-14 w-40px px-0"
-          :class="{ 'tag-active': hasAlreadyUpvoted(feedback.id) }">
+          :class="{ 'tag-active': hasAlreadyUpvoted(feedback.id) }"
+          @click="handleUpvoteClick">
           <IconsArrowUp
             class="w-3 inline-block"
             :color="hasAlreadyUpvoted(feedback.id) ? '#CFD7FF' : '#4661E6'" />
