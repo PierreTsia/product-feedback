@@ -10,7 +10,7 @@ interface State {
 export const useFilterStore = defineStore('filters', {
   state: (): State => ({
     activeFilters: [],
-    orderBy: OrderBy.Upvotes,
+    orderBy: OrderBy.CreatedAt,
     orderDirection: OrderDirection.Asc,
   }),
   getters: {

@@ -58,7 +58,7 @@ export const useFeedbackStore = defineStore('feedbacks', {
         const newFeedback = await createNewFeedback(payload)
         this.isLoading = false
         if (newFeedback) {
-          this.feedbacks.push(newFeedback)
+          this.feedbacks.unshift(newFeedback)
         }
         if (redirectRoute) {
           router.push(redirectRoute)
